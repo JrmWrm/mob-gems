@@ -1,0 +1,21 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#i#",
+        "i i",
+        "#i#"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:gold_nugget"
+        },
+        "i": {
+            "item": "minecraft:iron_ingot"
+        }
+    },
+    "result": 
+    {
+        "item": "mob_gems:iron_bracelet",
+        "count": 1
+    }
+}

@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "id": "mob_gems",
+  "version": "${version}",
+
+  "name": "Mob Gems",
+  "description": "Mob Gems is about capturing mobs in gems to harness their abbilities.",
+  "authors": [
+    "jrm_wrm"
+  ],
+  "contact": {
+    "homepage": "",
+    "sources": ""
+  },
+
+  "license": "CC0-1.0",
+  "icon": "assets/mob_gems/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "me.jrm_wrm.mob_gems.MobGems"
+    ],
+    "client": [
+      "me.jrm_wrm.mob_gems.MobGemsClient"
+    ]
+  },
+  "mixins": [
+    "mob_gems.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.7.4",
+    "fabric": "*",
+    "minecraft": "1.16.x"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
