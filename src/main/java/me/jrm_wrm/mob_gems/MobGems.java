@@ -1,6 +1,7 @@
 package me.jrm_wrm.mob_gems;
 
 import me.jrm_wrm.mob_gems.registry.ModBlocks;
+import me.jrm_wrm.mob_gems.registry.ModEvents;
 import me.jrm_wrm.mob_gems.registry.ModItems;
 import me.jrm_wrm.mob_gems.registry.ModLoot;
 import me.jrm_wrm.mob_gems.registry.ModMisc;
@@ -27,8 +28,9 @@ public class MobGems implements ModInitializer {
 		ModItems.registerItems();
 		ModBlocks.registerBlocks();
 		ModMisc.registerMiscellanious();
-		ModLoot.modifyLootTables();
+		ModEvents.registerEvents();
 		ModNetworking.registerReceivers();
+		ModLoot.modifyLootTables();
 	}
 
 }

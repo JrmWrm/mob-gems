@@ -25,7 +25,10 @@ import net.minecraft.util.collection.DefaultedList;
 
 public class GemCageBlockEntity extends BlockEntity implements Tickable, BlockEntityClientSerializable, ImplementedInventory, NamedScreenHandlerFactory {
 
-    public static final int FUEL_CAPACITY = 3 * ModItems.POWDER_FUEL_AMOUNT;
+    // current values: ~15 minutes per soul powder
+    private static final int POWDER_FUEL_AMOUNT = 3600;
+    private static final float MOB_GEM_DRAIN_FACTOR = 0.2f;
+    public static final int FUEL_CAPACITY = 2 * POWDER_FUEL_AMOUNT;
 
     // call markDirty() whenever changing variables
     private final DefaultedList<ItemStack> items = DefaultedList.ofSize(2, ItemStack.EMPTY);  
@@ -99,7 +102,7 @@ public class GemCageBlockEntity extends BlockEntity implements Tickable, BlockEn
                 
                 if (fuelLevel < 0 ) fuelLevel = 0;
                 else if (fuelLevel > 0) {
-                    if (world.random.nextDouble() < ModItems.MOB_GEM_DRAIN_FACTOR) fuelLevel -= 1;
+                    if (world.random.nextDouble() < MOB_GEM_DRAIN_FACTOR) fuelLevel -= 1;
                     MobGemItem mobGem = (MobGemItem) getGemStack().getItem();
                     mobGem.onCageTick(getGemStack(), world, pos);
                 }
@@ -107,8 +110,8 @@ public class GemCageBlockEntity extends BlockEntity implements Tickable, BlockEn
                 markDirty();
             }
 
-            if (fuelLevel <= FUEL_CAPACITY - ModItems.POWDER_FUEL_AMOUNT && getFuelStack().getCount() > 0) {
-                fuelLevel += ModItems.POWDER_FUEL_AMOUNT;
+            if (fuelLevel <= FUEL_CAPACITY - POWDER_FUEL_AMOUNT && getFuelStack().getCount() > 0) {
+                fuelLevel += POWDER_FUEL_AMOUNT;
                 getFuelStack().setCount(getFuelStack().getCount() - 1);
                 markDirty();
             }

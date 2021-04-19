@@ -34,11 +34,7 @@ public class ModItems {
     public static final MobGemItem ZOMBIE_MOB_GEM = addMobGem(new ZombieMobGem(EntityType.ZOMBIE, 0xadfc03));
     public static final MobGemItem ENDERMAN_MOB_GEM = addMobGem(new MobGemItem(EntityType.ENDERMAN, 0x78126e));
     public static final MobGemItem IRON_GOLEM_MOB_GEM = addMobGem(new IronGolemMobGem(EntityType.IRON_GOLEM, 0x7a7a7a));
-
-    // Item variables
-    public static final int POWDER_FUEL_AMOUNT = 500;
-    public static final float MOB_GEM_DRAIN_FACTOR = 0.2f;
-
+    
     // Item screen handlers
     public static ScreenHandlerType<BraceletScreenHandler> BRACELET_SCREEN_HANDLER;
 
