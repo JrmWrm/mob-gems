@@ -32,6 +32,7 @@ public class ModItems {
     private static HashMap<String, MobGemItem> mobGemItems = new HashMap<String, MobGemItem>(); 
     
     public static final MobGemItem ZOMBIE_MOB_GEM = addMobGem(new ZombieMobGem(EntityType.ZOMBIE, 0xadfc03));
+    public static final MobGemItem ZOMBIE_VILLAGER_MOB_GEM = addMobGem(new ZombieMobGem(EntityType.ZOMBIE_VILLAGER, 0xadfc03));
     public static final MobGemItem ENDERMAN_MOB_GEM = addMobGem(new MobGemItem(EntityType.ENDERMAN, 0x78126e));
     public static final MobGemItem IRON_GOLEM_MOB_GEM = addMobGem(new IronGolemMobGem(EntityType.IRON_GOLEM, 0x7a7a7a));
     

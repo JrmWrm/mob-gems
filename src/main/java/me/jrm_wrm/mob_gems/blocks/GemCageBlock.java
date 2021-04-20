@@ -33,7 +33,7 @@ public class GemCageBlock extends BlockWithEntity {
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (world.isClient || hand == Hand.OFF_HAND) return ActionResult.PASS;
+        if (world.isClient || hand == Hand.OFF_HAND) return ActionResult.SUCCESS;
 
         //GemCageBlockEntity entity = (GemCageBlockEntity) world.getBlockEntity(pos);
         NamedScreenHandlerFactory screenHandlerFactory = state.createScreenHandlerFactory(world, pos);

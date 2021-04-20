@@ -85,7 +85,7 @@ public class BraceletItem extends Item {
         
         ItemStack stack = player.getStackInHand(hand);
         DefaultedList<ItemStack> items = getStoredItems(stack);
-
+        
         // create an inventory object for the screen
         ImplementedInventory screenInventory = new ImplementedInventory(){
             @Override
@@ -135,10 +135,12 @@ public class BraceletItem extends Item {
     }
 
     // check if the bracelet stores a specific mob gem
-    public static boolean hasMobGem(ItemStack stack, MobGemItem item) {
+    public static <M extends MobGemItem> boolean hasMobGem(ItemStack stack, Object gemObj) {
         for (ItemStack storedItem : getStoredItems(stack)) {
-            System.out.println("Stored: " + storedItem.getItem() + ", " + item + " - " + (storedItem.getItem() == item));
-            if (storedItem.getItem() == item) return true;
+            // complicated version of instanceof because it's in a static method and an indirect check
+            // doing it this way so that multiple mob gems that are of the same mob gem class will all return true 
+            // (e.g zombie villager & zombie)
+            if (storedItem.getItem().getClass().getName().equals(gemObj.getClass().getName())) return true;
         }
         return false;
     }

@@ -10,6 +10,7 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -54,7 +55,7 @@ public class IronGolemMobGem extends MobGemItem {
 
         // push away all hostile entities
         for (Entity entity : entities) {
-            if (entity instanceof HostileEntity) {  
+            if (entity instanceof HostileEntity || entity instanceof ArrowEntity) {  
                 double deltaX = MathHelper.clamp(entity.getVelocity().getX() + (entity.getX() - pos.getX()), -0.4, 0.4);
                 double deltaZ = MathHelper.clamp(entity.getVelocity().getZ() + (entity.getZ() - pos.getZ()), -0.4, 0.4);
                 entity.addVelocity(deltaX, 0, deltaZ);
