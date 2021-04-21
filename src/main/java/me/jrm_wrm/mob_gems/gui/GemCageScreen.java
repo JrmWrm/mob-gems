@@ -32,7 +32,7 @@ public class GemCageScreen extends HandledScreen<GemCageScreenHandler> {
         drawTexture(matrices, x, y, 0, 0, backgroundWidth, backgroundHeight);
         drawTexture(matrices, x + 79, y + 54, 176, 0, w, 4);
 
-        textRenderer.draw(matrices, "Fuel: " + screenHandler.getFuelLevel() + " - " + w, 120, 28, 0);
+        //textRenderer.draw(matrices, "Fuel: " + screenHandler.getFuelLevel() + " - " + w, 120, 28, 0);
     }
 
     @Override
