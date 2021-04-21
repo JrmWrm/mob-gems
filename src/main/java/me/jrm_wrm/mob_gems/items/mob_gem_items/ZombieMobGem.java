@@ -22,6 +22,12 @@ import net.minecraft.world.World;
 
 public class ZombieMobGem extends MobGemItem {
 
+    /**
+     * Zombie Mob Gem
+     * - augmenter: every food gives you hunger
+     * - diminiser: no food gives you hunger
+     * - gem cage: turns villagers into zombie villagers
+     */
     public <T extends MobEntity> ZombieMobGem(EntityType<T> type, int tint) {
         super(type, tint);
     }

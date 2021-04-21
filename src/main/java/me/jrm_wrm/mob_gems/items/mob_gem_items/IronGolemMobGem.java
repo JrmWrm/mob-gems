@@ -18,32 +18,33 @@ import net.minecraft.world.World;
 
 public class IronGolemMobGem extends MobGemItem {
 
+    /**
+     * Iron Golem Mob Gem
+     * - augmenter: health boost
+     * - diminiser: negative health boost (less hearts)
+     * - gem cage: push away hostile mobs and arrows
+     */
     public <T extends MobEntity> IronGolemMobGem(EntityType<T> type, int tint) {
         super(type, tint);
     }
     
     @Override
-    public void onAugmenterTick(ItemStack bracelet, ItemStack stack, World world, Entity entity, int slot) {
+    public void onAugmenterTick(ItemStack bracelet, ItemStack stack, World world, LivingEntity livingEntity, int slot) {
         if(world.isClient) return;
         
-        if (entity instanceof LivingEntity) {
-            LivingEntity livingEntity = (LivingEntity) entity;
-            if (livingEntity.hasStatusEffect(StatusEffects.HEALTH_BOOST)) {
-                livingEntity.getStatusEffect(StatusEffects.HEALTH_BOOST).upgrade(new StatusEffectInstance(StatusEffects.HEALTH_BOOST, 10, 2, true, false));
-            } else {
-                livingEntity.applyStatusEffect(new StatusEffectInstance(StatusEffects.HEALTH_BOOST, 10, 2, true, false));
-            }
+        // if the entity already has health boost, upgrade it, otherwise apply it
+        if (livingEntity.hasStatusEffect(StatusEffects.HEALTH_BOOST)) {
+            livingEntity.getStatusEffect(StatusEffects.HEALTH_BOOST).upgrade(new StatusEffectInstance(StatusEffects.HEALTH_BOOST, 10, 2, true, false));
+        } else {
+            livingEntity.applyStatusEffect(new StatusEffectInstance(StatusEffects.HEALTH_BOOST, 10, 2, true, false));
         }
     }
 
     @Override
-    public void onDiminisherTick(ItemStack bracelet, ItemStack stack, World world, Entity entity, int slot) {
+    public void onDiminisherTick(ItemStack bracelet, ItemStack stack, World world, LivingEntity livingEntity, int slot) {
         if(world.isClient) return;
         
-        if (entity instanceof LivingEntity) {
-            LivingEntity livingEntity = (LivingEntity) entity;
-            livingEntity.applyStatusEffect(new StatusEffectInstance(StatusEffects.HEALTH_BOOST, 10, -4, true, false));
-        }
+        livingEntity.applyStatusEffect(new StatusEffectInstance(StatusEffects.HEALTH_BOOST, 10, -4, true, false));
     }
 
     @Override

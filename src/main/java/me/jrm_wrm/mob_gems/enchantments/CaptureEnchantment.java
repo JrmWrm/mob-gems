@@ -14,13 +14,14 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUsage;
 import net.minecraft.item.Items;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
 public class CaptureEnchantment extends Enchantment {
@@ -61,8 +62,9 @@ public class CaptureEnchantment extends Enchantment {
             if (ModItems.hasMobGem(mob.getType())) {
                 if (Math.random() < captureChance) {                    
                     // remove one diamond and give one appropriate mob gem
-                    player.getOffHandStack().setCount(player.getOffHandStack().getCount()-1);
-                    player.giveItemStack(new ItemStack(ModItems.getMobGemFromMob(mob.getType())));
+                    player.setStackInHand(Hand.OFF_HAND, 
+                        ItemUsage.method_30012(player.getOffHandStack(), player, ModItems.getMobGemFromMob(mob.getType()).getDefaultStack()));
+                    
 
                     // send position information to the client for some juicy feedback
                     PacketByteBuf buf = PacketByteBufs.create();

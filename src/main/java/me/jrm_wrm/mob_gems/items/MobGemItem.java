@@ -72,11 +72,15 @@ public class MobGemItem extends Item {
      * {@param slot slot in the bracelet}
      */
     public void onBraceletTick(ItemStack bracelet, ItemStack gemStack, World world, Entity entity, int slot) {
-        if (!BraceletItem.hasMobGemEquipped((LivingEntity) entity, (MobGemItem) gemStack.getItem())) return;
+        if (!(entity instanceof LivingEntity)) return;
+        LivingEntity livingEntity = (LivingEntity) entity;
+
+        // if not equipped, return
+        if (bracelet != BraceletItem.getEquippedBracelet(livingEntity)) return;
 
         BraceletItem braceletItem = (BraceletItem) bracelet.getItem();
-        if (braceletItem.isAugmenter) onAugmenterTick(bracelet, gemStack, world, entity, slot); 
-        else onDiminisherTick(bracelet, gemStack, world, entity, slot);
+        if (braceletItem.isAugmenter) onAugmenterTick(bracelet, gemStack, world, livingEntity, slot); 
+        else onDiminisherTick(bracelet, gemStack, world, livingEntity, slot);
     }
 
     /**
@@ -84,14 +88,14 @@ public class MobGemItem extends Item {
      * Override to add passive behaviour while wearing
      * {@param slot slot in the bracelet}
      */
-    public void onAugmenterTick(ItemStack bracelet, ItemStack gemStack, World world, Entity entity, int slot) {}
+    public void onAugmenterTick(ItemStack bracelet, ItemStack gemStack, World world, LivingEntity livingEntity, int slot) {}
 
     /**
      * Called every tick if the mob gem is in a diminisher bracelet (iron)
      * Override to add passive behaviour while wearing
      * {@param slot slot in the bracelet}
      */
-    public void onDiminisherTick(ItemStack bracelet, ItemStack gemStack, World world, Entity entity, int slot) {}
+    public void onDiminisherTick(ItemStack bracelet, ItemStack gemStack, World world, LivingEntity livingEntity, int slot) {}
 
     /**
      * Called every tick if the mob gem is in a Gem Cage
