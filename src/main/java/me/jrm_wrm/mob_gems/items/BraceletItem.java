@@ -159,10 +159,10 @@ public class BraceletItem extends Item {
         }
         
         Optional<ImmutableTriple<String,Integer,ItemStack>> optional = CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.IRON_BRACELET, entity);
-        if (!optional.isEmpty()) bracelet = optional.get().getRight();
+        if (!optional.equals(Optional.empty())) bracelet = optional.get().getRight();
         
         optional = CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.GOLDEN_BRACELET, entity);
-        if (!optional.isEmpty()) bracelet = optional.get().getRight();
+        if (!optional.equals(Optional.empty())) bracelet = optional.get().getRight();
 
         return bracelet;
     }
