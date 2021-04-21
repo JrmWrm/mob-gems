@@ -43,13 +43,11 @@ public class CowMobGem extends MobGemItem {
     
     @Override
     public void onDiminisherTick(ItemStack bracelet, ItemStack gemStack, World world, LivingEntity livingEntity, int slot) {
-        if (world.isClient) return;
-
         for (StatusEffectInstance effect : livingEntity.getStatusEffects()) {
             // slowly increase to max level 5
-            if (world.random.nextDouble() < 0.01) 
+            if (world.random.nextDouble() < 0.01)
                 effect.upgrade(new StatusEffectInstance( effect.getEffectType(), effect.getDuration(), 
-                MathHelper.clamp(effect.getAmplifier() + 1, -4, 4)));        
+                    MathHelper.clamp(effect.getAmplifier() + 1, -4, 4)));    
         }
     }
 
