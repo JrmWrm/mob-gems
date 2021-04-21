@@ -16,21 +16,20 @@ public class InteractionListener {
 
     // called when the player right clicks an entity
     public static ActionResult onUseEntity(PlayerEntity player, World world, Hand hand, Entity entity, EntityHitResult hitResult) {
-        if (world.isClient) return ActionResult.PASS;
-
         BlockPos pos = entity.getBlockPos();
+        ActionResult actionResult = ActionResult.PASS;
 
         // get gem cages in range
-        WorldUtil.getGemCageBlockEntitiesInRange(world, pos).forEach( (GemCageBlockEntity e) -> {
+        for (GemCageBlockEntity e : WorldUtil.getGemCageBlockEntitiesInRange(world, pos)) {
             
             // cow mob gem code
             if (entity instanceof LivingEntity && e.getGemStack().getItem() instanceof CowMobGem) {
-                CowMobGem.milkEntity(player, hand, (LivingEntity) entity);
+                actionResult = CowMobGem.milkEntity(player, hand, (LivingEntity) entity);
             }
+            
+        } 
 
-        }); 
-
-        return ActionResult.PASS;
+        return actionResult;
     }
     
 }

@@ -12,6 +12,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsage;
 import net.minecraft.item.Items;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -52,14 +54,17 @@ public class CowMobGem extends MobGemItem {
     }
 
     // called via InteractionListener when right clicking an entity in the range of a gem cage with a cow mob gem
-    public static void milkEntity(PlayerEntity player, Hand hand, LivingEntity entity) {
+    public static ActionResult milkEntity(PlayerEntity player, Hand hand, LivingEntity entity) {
         ItemStack handStack = player.getStackInHand(hand);
 
         // if the player is weilding a bucket, use ItemUsage to fill the bucket with milk
         if (handStack.getItem() == Items.BUCKET && !entity.isBaby()) {
-            //player.playSound(SoundEvents.ENTITY_COW_MILK, 1.0F, 1.0F);
+            player.playSound(SoundEvents.ENTITY_COW_MILK, 1.0F, 1.0F);
             ItemStack filledBucket = ItemUsage.method_30012(handStack, player, Items.MILK_BUCKET.getDefaultStack());
             player.setStackInHand(hand, filledBucket);
+            return ActionResult.SUCCESS;
         }
+
+        return ActionResult.PASS;
     }
 }
