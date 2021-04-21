@@ -8,8 +8,11 @@ import org.apache.commons.lang3.tuple.ImmutableTriple;
 import me.jrm_wrm.mob_gems.gui.BraceletScreenHandler;
 import me.jrm_wrm.mob_gems.registry.ModItems;
 import me.jrm_wrm.mob_gems.util.ImplementedInventory;
+import net.fabricmc.fabric.api.item.v1.EquipmentSlotProvider;
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -33,8 +36,13 @@ public class BraceletItem extends Item {
     
     public boolean isAugmenter;
 
-    public BraceletItem(Settings settings, boolean isAugmenter) {
-        super(settings);
+    public BraceletItem(FabricItemSettings settings, boolean isAugmenter) {
+        super(settings.equipmentSlot(new EquipmentSlotProvider(){
+            @Override
+            public EquipmentSlot getPreferredEquipmentSlot(ItemStack stack) {
+                return EquipmentSlot.CHEST;
+            }
+        }));
         this.isAugmenter = isAugmenter;
     }
 
