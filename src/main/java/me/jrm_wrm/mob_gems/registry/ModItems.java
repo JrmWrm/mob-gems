@@ -9,6 +9,7 @@ import me.jrm_wrm.mob_gems.items.MobGemItem;
 import me.jrm_wrm.mob_gems.items.mob_gem_items.BeeMobGem;
 import me.jrm_wrm.mob_gems.items.mob_gem_items.CowMobGem;
 import me.jrm_wrm.mob_gems.items.mob_gem_items.IronGolemMobGem;
+import me.jrm_wrm.mob_gems.items.mob_gem_items.SkeletonMobGem;
 import me.jrm_wrm.mob_gems.items.mob_gem_items.ZombieMobGem;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -38,6 +39,7 @@ public class ModItems {
     public static final MobGemItem ZOMBIE_VILLAGER_MOB_GEM = addMobGem(new ZombieMobGem(EntityType.ZOMBIE_VILLAGER, 0xadfc03));
     public static final MobGemItem COW_MOB_GEM = addMobGem(new CowMobGem(EntityType.COW, 0x805501));
     public static final MobGemItem BEE_MOB_GEM = addMobGem(new BeeMobGem(EntityType.BEE, 0xffd900));
+    public static final MobGemItem SKELETON_MOB_GEM = addMobGem(new SkeletonMobGem(EntityType.SKELETON, 0xffffff));
     public static final MobGemItem ENDERMAN_MOB_GEM = addMobGem(new MobGemItem(EntityType.ENDERMAN, 0x7030e6));
     
     // Item screen handlers
