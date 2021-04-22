@@ -19,6 +19,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -43,26 +44,20 @@ public class BeeMobGem extends MobGemItem {
         Vec3d pos = livingEntity.getPos();
         BlockPos blockPos = livingEntity.getBlockPos();
 
-        PlayerEntity closestPlayer = livingEntity instanceof PlayerEntity ? 
-            (PlayerEntity) livingEntity : world.getClosestPlayer(pos.getX(), pos.getY(), pos.getZ(), 128, false);
-
-        // check if there is a player near, otherwise ItemUsageContext#new will break
         // check if the entity has moved
-        if (closestPlayer != null && movedEntities.contains(livingEntity)) {
+        if (movedEntities.contains(livingEntity)) {
 
             // loop through all blocks in range
             for (int x = blockPos.getX() - braceletRange; x < blockPos.getX() + braceletRange; x++) {
                 for (int y = blockPos.getY() - braceletRange; y < blockPos.getY() + braceletRange; y++) {
                     for (int z = blockPos.getZ() - braceletRange; z < blockPos.getZ() + braceletRange; z++) {
 
-                        // only every bonemeal every now and then
-                        if (world.random.nextDouble() > 0.005) continue;
+                        BlockPos blockPos2 = new BlockPos(x, y, z);
 
-                        // trick the game into thinking a block was bonemealed
-                        BlockHitResult hit = new BlockHitResult(pos, Direction.UP, new BlockPos(x, y, z), false);
-                        ItemUsageContext context = new ItemUsageContext(closestPlayer, Hand.MAIN_HAND, hit);
-                        ((ItemUsageContextMixin) context).setStack(ItemStack.EMPTY);
-                        Items.BONE_MEAL.useOnBlock(context);
+                        // only bonemeal every now and then
+                        if (world.random.nextDouble() < 0.004) {
+                            bonemeal(new Vec3d(pos.getX(), pos.getY(), pos.getZ()), blockPos2, world);
+                        }
                     }
                 }
             }
@@ -107,7 +102,7 @@ public class BeeMobGem extends MobGemItem {
 
                         // if it's a flower or grass remove block
                         // if it's a flower, small chance of turning into a wither rose
-                        if (flower || block == Blocks.GRASS || block == Blocks.TALL_GRASS) {
+                        if (flower || isGrowable(block) || block == Blocks.GRASS || block == Blocks.TALL_GRASS) {
                             world.removeBlock(blockPos2, false);
                             if (flower && world.random.nextDouble() < 0.1) world.setBlockState(blockPos2, Blocks.WITHER_ROSE.getDefaultState());
                         }
@@ -135,7 +130,41 @@ public class BeeMobGem extends MobGemItem {
 
     @Override
     public void onCageTick(ItemStack stack, World world, BlockPos pos) {
+        Box box = getRangeBox(pos);
+
+        // loop through all blocks in range
+        for (int x = (int) box.minX; x <= box.maxX; x++) {
+            for (int y = (int) box.minY; y <= box.maxY; y++) {
+                for (int z = (int) box.minZ; z <= box.maxZ; z++) {
+
+                    BlockPos blockPos2 = new BlockPos(x, y, z);
+                    Block block = world.getBlockState(blockPos2).getBlock();
+
+                    // only bonemeal every now and then
+                    if (world.random.nextDouble() < 0.003 && isGrowable(block)) {
+                        bonemeal(new Vec3d(pos.getX(), pos.getY(), pos.getZ()), blockPos2, world);
+                    }
+                }
+            }
+        }
         
+    }
+
+    private boolean isGrowable(Block block) {
+        return block.isIn(TagRegistry.block(new Identifier("minecraft", "bee_growables")))
+            || block.isIn(TagRegistry.block(new Identifier("minecraft", "saplings")));
+    }
+
+    private void bonemeal(Vec3d sourcePos, BlockPos bonemealPos, World world) {
+        PlayerEntity closestPlayer = world.getClosestPlayer(sourcePos.getX(), sourcePos.getY(), sourcePos.getZ(), 128, false);
+
+        // trick the game into thinking a block was bonemealed
+        if (closestPlayer != null) {
+            BlockHitResult hit = new BlockHitResult(sourcePos, Direction.UP, bonemealPos, false);
+            ItemUsageContext context = new ItemUsageContext(closestPlayer, Hand.MAIN_HAND, hit);
+            ((ItemUsageContextMixin) context).setStack(ItemStack.EMPTY);
+            Items.BONE_MEAL.useOnBlock(context);
+        }
     }
     
 }
