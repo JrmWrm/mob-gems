@@ -15,7 +15,7 @@ make sure to have a **diamond in your off-hand**, which will be turned into a mo
 
 **Note:** Capture can not be combined with Mending or Looting.
 
-## Using mobs gems
+## Using mob gems
 
 ### Bracelets
 Bracelets grant the wearer certain effects or abillities that represent a mob's characteristics. These can be either good or bad depending on the mob and the type of bracelet.
