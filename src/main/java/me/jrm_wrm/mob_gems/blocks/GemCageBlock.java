@@ -65,6 +65,7 @@ public class GemCageBlock extends BlockWithEntity {
     public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         super.onBreak(world, pos, state, player);
         if (world.isClient) return;
+        if (player.isCreative()) return;
 
         GemCageBlockEntity entity = (GemCageBlockEntity) world.getBlockEntity(pos);
 
