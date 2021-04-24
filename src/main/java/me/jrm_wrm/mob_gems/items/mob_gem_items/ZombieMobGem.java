@@ -75,7 +75,7 @@ public class ZombieMobGem extends MobGemItem {
         if (!braceletItem.isAugmenter && induceHunger) {
             entity.removeStatusEffect(StatusEffects.HUNGER);
         } else if (braceletItem.isAugmenter) {
-            entity.applyStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 20*20, 0)); 
+            entity.applyStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 30*20, 0)); 
         }
     }
     

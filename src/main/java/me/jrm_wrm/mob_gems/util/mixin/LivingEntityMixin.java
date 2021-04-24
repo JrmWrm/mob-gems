@@ -3,6 +3,7 @@ package me.jrm_wrm.mob_gems.util.mixin;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.At.Shift;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -20,7 +21,7 @@ public class LivingEntityMixin {
         LivingEntityCallback.ON_DEATH.invoker().onDeath((LivingEntity) (Object) this, source);
     }
 
-    @Inject(method = "eatFood", at = @At("RETURN"))
+    @Inject(method = "eatFood", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;applyFoodEffects", shift = Shift.AFTER))
     private void eatFood(World world, ItemStack stack, CallbackInfoReturnable<ItemStack> info) {
         LivingEntityCallback.ON_EAT.invoker().onEat(world, (LivingEntity) (Object) this, stack);
     }
