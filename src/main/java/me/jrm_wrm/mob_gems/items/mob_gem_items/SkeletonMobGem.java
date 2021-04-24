@@ -6,7 +6,6 @@ import me.jrm_wrm.mob_gems.items.MobGemItem;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.ItemStack;
@@ -18,7 +17,7 @@ public class SkeletonMobGem extends MobGemItem {
 
     /**
      * Skeleton Mob Gem
-     * - augmenter: don't consume arrows like the bow has infinity (even tipped ones!)
+     * - augmenter: don't consume arrows like the bow has infinity {@BowItemMixin.java}
      * - diminiser: wolves will never attack you
      * - gem cage: repel projectiles
      */
@@ -26,10 +25,7 @@ public class SkeletonMobGem extends MobGemItem {
         super(type, tint);
     }
 
-    @Override
-    public void onAugmenterTick(ItemStack bracelet, ItemStack gemStack, World world, LivingEntity livingEntity, int slot) {
-
-    }
+    // Augmenter: see BowItemMixin
 
     @Override
     public void onDiminisherTick(ItemStack bracelet, ItemStack gemStack, World world, LivingEntity livingEntity, int slot) {
