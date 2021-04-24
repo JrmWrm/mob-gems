@@ -5,8 +5,9 @@ import java.util.List;
 import me.jrm_wrm.mob_gems.items.MobGemItem;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.passive.WolfEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
@@ -28,11 +29,6 @@ public class SkeletonMobGem extends MobGemItem {
     // Augmenter: see BowItemMixin
 
     @Override
-    public void onDiminisherTick(ItemStack bracelet, ItemStack gemStack, World world, LivingEntity livingEntity, int slot) {
-
-    }
-
-    @Override
     public void onCageTick(ItemStack stack, World world, BlockPos pos) {
         if(world.isClient) return;
 
@@ -50,6 +46,16 @@ public class SkeletonMobGem extends MobGemItem {
                 entity.addVelocity(delta.x, delta.y/8, delta.z);
             }
         } 
+    }
+
+    // Diminisher code
+    // called from InteractionListener when the player attacks a wolf
+    public static void onAttackWolf(PlayerEntity player, WolfEntity wolf, ItemStack bracelet) {
+        /*if (!((BraceletItem) bracelet.getItem()).isAugmenter) {
+            player.sendMessage(Text.of("woof"), false);
+            wolf.stopAnger();
+            wolf.setAngerTime(0);
+        }*/
     }
     
 }
