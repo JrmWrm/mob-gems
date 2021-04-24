@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import me.jrm_wrm.mob_gems.items.BraceletItem;
+import me.jrm_wrm.mob_gems.registry.ModItems;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.RevengeGoal;
@@ -35,12 +36,15 @@ public abstract class WolfEntityMixin extends TameableEntity {
 		if (target != null) {
 			ItemStack bracelet = BraceletItem.getEquippedBracelet(target);
 			if (bracelet != ItemStack.EMPTY) {
-				if (!((BraceletItem) bracelet.getItem()).isAugmenter) {
+				
+				// if diminisher with skeleton gem, stop being angry and stop the revenge goal.
+				if (!((BraceletItem) bracelet.getItem()).isAugmenter && BraceletItem.hasMobGem(bracelet, ModItems.SKELETON_MOB_GEM)) {
 					wolf.stopAnger();
 					Optional<Goal> revengeGoal = targetSelector.getRunningGoals().map(goal -> goal.getGoal())
 							.filter(goal -> goal instanceof RevengeGoal).findFirst();
                     revengeGoal.ifPresent(Goal::stop);
 				}
+
 			}
 		}
 	}

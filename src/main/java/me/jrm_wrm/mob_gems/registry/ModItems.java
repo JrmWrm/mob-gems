@@ -37,9 +37,11 @@ public class ModItems {
     public static final MobGemItem IRON_GOLEM_MOB_GEM = addMobGem(new IronGolemMobGem(EntityType.IRON_GOLEM, 0xb0b0b0));
     public static final MobGemItem ZOMBIE_MOB_GEM = addMobGem(new ZombieMobGem(EntityType.ZOMBIE, 0xadfc03));
     public static final MobGemItem ZOMBIE_VILLAGER_MOB_GEM = addMobGem(new ZombieMobGem(EntityType.ZOMBIE_VILLAGER, 0xadfc03));
+    public static final MobGemItem HUSK_MOB_GEM = addMobGem(new ZombieMobGem(EntityType.HUSK, 0xadfc03));
     public static final MobGemItem COW_MOB_GEM = addMobGem(new CowMobGem(EntityType.COW, 0x805501));
     public static final MobGemItem BEE_MOB_GEM = addMobGem(new BeeMobGem(EntityType.BEE, 0xffd900));
     public static final MobGemItem SKELETON_MOB_GEM = addMobGem(new SkeletonMobGem(EntityType.SKELETON, 0xffffff));
+    public static final MobGemItem STRAY_MOB_GEM = addMobGem(new SkeletonMobGem(EntityType.STRAY, 0xffffff));
     public static final MobGemItem ENDERMAN_MOB_GEM = addMobGem(new MobGemItem(EntityType.ENDERMAN, 0x7030e6));
     
     // Item screen handlers
