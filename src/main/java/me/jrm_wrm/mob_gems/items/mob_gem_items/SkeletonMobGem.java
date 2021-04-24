@@ -16,8 +16,8 @@ public class SkeletonMobGem extends MobGemItem {
 
     /**
      * Skeleton Mob Gem
-     * - augmenter: don't consume arrows like the bow has infinity {@BowItemMixin.java}
-     * - diminiser: wolves will never attack you
+     * - augmenter: don't consume arrows like the bow has infinity {@ BowItemMixin.java}
+     * - diminiser: wolves will never attack you {@ WolfEntityMixin.java}
      * - gem cage: repel projectiles
      */
     public <T extends MobEntity> SkeletonMobGem(EntityType<T> type, int tint) {
@@ -25,6 +25,7 @@ public class SkeletonMobGem extends MobGemItem {
     }
 
     // Augmenter: see BowItemMixin
+    // diminisher: see WolfEntityMixin
 
     @Override
     public void onCageTick(ItemStack stack, World world, BlockPos pos) {

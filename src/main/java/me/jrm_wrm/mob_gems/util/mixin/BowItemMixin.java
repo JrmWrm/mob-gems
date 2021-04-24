@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 public class BowItemMixin {
 
     /**
-     *  skeleton mob gem code augmenter code 
+     *  skeleton mob gem augmenter code 
      *  {@SkeletonMobGem.java}
      */ 
     @ModifyVariable(method = "onStoppedUsing", at = @At(value = "INVOKE", target="Lnet/minecraft/entity/player/PlayerEntity;getArrowType"))
