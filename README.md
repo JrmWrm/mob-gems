@@ -49,7 +49,7 @@ effects from the trapped soul of a mob.
 I recommend figuring out all the different effects on your own, prt of the fun is in finding out! However some can be hard to deduce or 
 maybe you like knowing what you're getting yourself into. No worries, all effects have been listed below.
 
-**Note:** Only the Zombie, Cow, Bee and Iron Golem Mob Gems have been implemented as of yet. 
+**Note:** Only the Mob Gems listed here have been implemented as of yet. Others will be coming in the future.
 
 <details>
   <summary>See effects</summary>
@@ -57,6 +57,7 @@ maybe you like knowing what you're getting yourself into. No worries, all effect
   | Mob           | Golden Bracelet | Iron Bracelet  | Gem Cage     |
   | ------------- | --------------- | -------------- | ------------ |
   | Zombie | Eating any food will give the wearer hunger | The wearer can eat rotten flesh without getting the hunger effect | All villagers in range will be turned into zombie villagers |
+  | Skeleton | Bows will behave like they have infinity | Wolfs won't get angered at you | Projectiles are warded off in the area |
   | Iron Golem | The wearer will have extra max health | The wearer will have less max health | All hostile mobs in range will be pushed away |
   | Cow | All status effects will be removed while wearing | All status effects will slowly increase in strenght (max 5) | All mobs in range can now be milked |
   | Bee | The wearer will polinate (bonemeal) blocks while walking | The wearer will decay organic blocks while walking. Flowers have a small chance of turning into wither roses | All crops and saplings in range will grow faster |
