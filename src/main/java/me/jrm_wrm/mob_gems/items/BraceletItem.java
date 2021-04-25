@@ -1,12 +1,11 @@
 package me.jrm_wrm.mob_gems.items;
 
+import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
-import org.apache.commons.lang3.tuple.ImmutableTriple;
+import com.google.common.base.Predicate;
 
 import me.jrm_wrm.mob_gems.gui.BraceletScreenHandler;
-import me.jrm_wrm.mob_gems.registry.ModItems;
 import me.jrm_wrm.mob_gems.util.ImplementedInventory;
 import net.fabricmc.fabric.api.item.v1.EquipmentSlotProvider;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -153,16 +152,14 @@ public class BraceletItem extends Item {
     }
 
     public static ItemStack getEquippedBracelet(LivingEntity entity) {
-        ItemStack bracelet = ItemStack.EMPTY;
-        for (ItemStack equippedItem : entity.getItemsEquipped()) {
-            if (equippedItem.getItem() instanceof BraceletItem) bracelet = equippedItem;
-        }
-        
-        Optional<ImmutableTriple<String,Integer,ItemStack>> optional = CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.IRON_BRACELET, entity);
-        if (!optional.equals(Optional.empty())) bracelet = optional.get().getRight();
-        
-        optional = CuriosApi.getCuriosHelper().findEquippedCurio(ModItems.GOLDEN_BRACELET, entity);
-        if (!optional.equals(Optional.empty())) bracelet = optional.get().getRight();
+        Predicate<ItemStack> filter = stack -> stack.getItem() instanceof BraceletItem;
+        Collection<ItemStack> equippedCollection = (Collection<ItemStack>) entity.getItemsEquipped();
+
+        ItemStack bracelet = equippedCollection.stream().filter(filter).findFirst().orElse(
+            CuriosApi.getCuriosHelper()
+                .findEquippedCurio(filter, entity)
+                .map(triple -> triple.getRight())
+                .orElse(ItemStack.EMPTY));
 
         return bracelet;
     }
