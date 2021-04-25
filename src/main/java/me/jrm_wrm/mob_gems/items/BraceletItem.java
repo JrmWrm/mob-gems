@@ -1,7 +1,8 @@
 package me.jrm_wrm.mob_gems.items;
 
-import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import com.google.common.base.Predicate;
 
@@ -153,9 +154,9 @@ public class BraceletItem extends Item {
 
     public static ItemStack getEquippedBracelet(LivingEntity entity) {
         Predicate<ItemStack> filter = stack -> stack.getItem() instanceof BraceletItem;
-        Collection<ItemStack> equippedCollection = (Collection<ItemStack>) entity.getItemsEquipped();
+        Stream<ItemStack> equippedStream = StreamSupport.stream(entity.getItemsEquipped().spliterator(), false);
 
-        ItemStack bracelet = equippedCollection.stream().filter(filter).findFirst().orElse(
+        ItemStack bracelet = equippedStream.filter(filter).findFirst().orElse(
             CuriosApi.getCuriosHelper()
                 .findEquippedCurio(filter, entity)
                 .map(triple -> triple.getRight())
