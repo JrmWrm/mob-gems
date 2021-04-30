@@ -51,7 +51,7 @@ public class CaptureEnchantment extends Enchantment {
     // gets called when an entitity is killed by a player wielding the capture enchantment
     public static ActionResult onKilled(World world, PlayerEntity player, LivingEntity target,  Map<Enchantment, Integer> itemEnchants) {
         
-        int level = itemEnchants.get(ModMisc.CAPTURE);
+        int level = itemEnchants.get(ModMisc.CAPTURE_ENCHANTMENT);
         float captureChance = CaptureEnchantment.BASE_CAPTURE_CHANCE + (level-1) * CaptureEnchantment.CAPTURE_CHANCE_LVL_FACTOR;
         MobEntity mob = (MobEntity) target;
         

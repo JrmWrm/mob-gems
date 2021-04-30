@@ -62,7 +62,7 @@ public class LivingEntityListener {
     
             // ENCHANTMENT LOGIC \\
             // Capture Enchantment
-            if (itemEnchants.containsKey(ModMisc.CAPTURE) && target instanceof MobEntity) {
+            if (itemEnchants.containsKey(ModMisc.CAPTURE_ENCHANTMENT) && target instanceof MobEntity) {
                 CaptureEnchantment.onKilled(world, player, target, itemEnchants);
             }
         }
