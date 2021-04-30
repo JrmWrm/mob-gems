@@ -2,19 +2,32 @@ package me.jrm_wrm.mob_gems.util.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.At.Shift;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import me.jrm_wrm.mob_gems.events.LivingEntityCallback;
+import me.jrm_wrm.mob_gems.util.LivingEntityAccess;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 @Mixin(LivingEntity.class)
-public class LivingEntityMixin {
+public abstract class LivingEntityMixin implements LivingEntityAccess {
+
+    public boolean ignited = false;
+
+    @Override
+    public boolean isIgnited() {
+        return ignited;
+    }
+
+    @Override
+    public void setIgnited(boolean ignited) {
+        this.ignited = ignited;
+    }
 
     @Inject(method = "onDeath", at = @At("RETURN"))
     private void onDeath(DamageSource source, CallbackInfo info) {
@@ -24,6 +37,5 @@ public class LivingEntityMixin {
     @Inject(method = "eatFood", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;applyFoodEffects", shift = Shift.AFTER))
     private void eatFood(World world, ItemStack stack, CallbackInfoReturnable<ItemStack> info) {
         LivingEntityCallback.ON_EAT.invoker().onEat(world, (LivingEntity) (Object) this, stack);
-    }
-    
+    }    
 }

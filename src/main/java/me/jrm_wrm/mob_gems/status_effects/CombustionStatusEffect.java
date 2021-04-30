@@ -1,5 +1,6 @@
 package me.jrm_wrm.mob_gems.status_effects;
 
+import me.jrm_wrm.mob_gems.util.LivingEntityAccess;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.damage.DamageSource;
@@ -48,8 +49,9 @@ public class CombustionStatusEffect extends StatusEffect {
             Explosion.DestructionType destructionType = world.getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING) 
                 ? Explosion.DestructionType.DESTROY : Explosion.DestructionType.NONE;
 
-            Explosion explosion = world.createExplosion(null, entity.getX(), entity.getBodyY(0.5F), entity.getZ(), amplifier + 1, destructionType);
-            entity.damage(DamageSource.explosion(explosion), 1000);    
+            ((LivingEntityAccess) entity).setIgnited(false);
+            entity.damage(DamageSource.explosion((LivingEntity)null), 1000);    
+            world.createExplosion(null, entity.getX(), entity.getBodyY(0.5F), entity.getZ(), amplifier + 1, destructionType);
         }
     }
 
@@ -57,6 +59,7 @@ public class CombustionStatusEffect extends StatusEffect {
     @Override
     public void onApplied(LivingEntity entity, AttributeContainer attributes, int amplifier) {
         entity.world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ENTITY_CREEPER_PRIMED, SoundCategory.HOSTILE, 1.0F, 0.5F);
+        ((LivingEntityAccess) entity).setIgnited(true);
     }
     
 }
