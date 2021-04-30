@@ -8,5 +8,6 @@
     "item.mob_gems.augmenter_bracelet.tooltip": "Augments mob characteristics",
     "item.mob_gems.diminisher_bracelet.tooltip": "Diminishes mob characteristics",
     "block.mob_gems.gem_cage": "Gem Cage",
-    "enchantment.mob_gems.capture": "Capture"
+    "enchantment.mob_gems.capture": "Capture",
+    "effect.mob_gems.combustion": "Combustion"
 }
