@@ -21,6 +21,9 @@ import net.minecraft.world.explosion.Explosion;
 
 public class CombustionStatusEffect extends StatusEffect {
 
+    /**
+     * See {@LivingEntityMixin.java} and {@LivingEntityRendererMixin.java} for rendering code
+     */
     public CombustionStatusEffect() {
         super(StatusEffectType.HARMFUL, 0x666666);
     }

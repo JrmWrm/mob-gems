@@ -1,8 +1,10 @@
 package me.jrm_wrm.mob_gems.items.mob_gem_items;
 
 import me.jrm_wrm.mob_gems.items.MobGemItem;
+import me.jrm_wrm.mob_gems.registry.ModMisc;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -23,7 +25,7 @@ public class CreeperMobGem extends MobGemItem {
     public void onDiminisherTick(ItemStack bracelet, ItemStack stack, World world, LivingEntity livingEntity, int slot) {
         if(world.isClient) return;
         
-        //livingEntity.applyStatusEffect(new StatusEffectInstance(ModMisc.BLAST_RESISTANCE_EFFECT, 10, -4, true, false));
+        livingEntity.applyStatusEffect(new StatusEffectInstance(ModMisc.BLAST_RESISTANCE_EFFECT, 10, 3, true, false));
     }
     
 }
