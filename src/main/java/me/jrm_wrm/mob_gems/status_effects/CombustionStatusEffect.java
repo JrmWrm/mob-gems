@@ -1,12 +1,18 @@
 package me.jrm_wrm.mob_gems.status_effects;
 
+import me.jrm_wrm.mob_gems.registry.ModNetworking;
 import me.jrm_wrm.mob_gems.util.LivingEntityAccess;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectType;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.world.GameRules;
@@ -49,17 +55,29 @@ public class CombustionStatusEffect extends StatusEffect {
             Explosion.DestructionType destructionType = world.getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING) 
                 ? Explosion.DestructionType.DESTROY : Explosion.DestructionType.NONE;
 
-            ((LivingEntityAccess) entity).setIgnited(false);
-            entity.damage(DamageSource.explosion((LivingEntity)null), 1000);    
+            setEntityIgnited(entity, false);      
+            entity.damage(DamageSource.explosion((LivingEntity)null), 9999);
             world.createExplosion(null, entity.getX(), entity.getBodyY(0.5F), entity.getZ(), amplifier + 1, destructionType);
         }
     }
 
-    // Play the fuse sound effect when the status effect gets applied
     @Override
     public void onApplied(LivingEntity entity, AttributeContainer attributes, int amplifier) {
+        setEntityIgnited(entity, true);       
         entity.world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ENTITY_CREEPER_PRIMED, SoundCategory.HOSTILE, 1.0F, 0.5F);
-        ((LivingEntityAccess) entity).setIgnited(true);
+    }
+
+    private void setEntityIgnited(LivingEntity entity, boolean ignited) {
+        // server side
+        ((LivingEntityAccess) entity).setIgnited(ignited);
+
+        // client side
+        PacketByteBuf buf = PacketByteBufs.create();
+        buf.writeInt(entity.getEntityId());
+        buf.writeBoolean(ignited);
+        entity.world.getPlayers().forEach( (PlayerEntity player) -> {
+            ServerPlayNetworking.send((ServerPlayerEntity) player, ModNetworking.SET_IGNITED_PACKET_ID, buf);
+        });
     }
     
 }
