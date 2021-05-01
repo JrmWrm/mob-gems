@@ -165,10 +165,10 @@ public class BraceletItem extends Item {
         return bracelet;
     }
 
-    // check if an entity is wearing a bracelet with a specific mob gem
-    public static boolean hasMobGemEquipped(LivingEntity entity, MobGemItem mobGem) {
+    // check if an entity is wearing a augmenter/diminisher bracelet with a specific mob gem
+    public static boolean hasMobGemEquipped(LivingEntity entity, MobGemItem mobGem, boolean augmenter) {
         ItemStack bracelet = getEquippedBracelet(entity);
-        if (!bracelet.isEmpty()) return hasMobGem(bracelet, mobGem);
+        if (!bracelet.isEmpty()) return hasMobGem(bracelet, mobGem) && ((BraceletItem) bracelet.getItem()).isAugmenter == augmenter;
         else return false;
     }
     //#endregion

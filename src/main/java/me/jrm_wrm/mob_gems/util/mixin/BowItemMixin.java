@@ -24,12 +24,8 @@ public class BowItemMixin {
 
         PlayerEntity player = (PlayerEntity) user;
 
-        if (BraceletItem.getEquippedBracelet(player) != ItemStack.EMPTY) {
-            BraceletItem bracelet = (BraceletItem) BraceletItem.getEquippedBracelet(player).getItem();
-
-            if (!player.getArrowType(stack).isEmpty() && BraceletItem.hasMobGemEquipped(player, ModItems.SKELETON_MOB_GEM) && bracelet.isAugmenter) {
-                return true;
-            }
+        if (!player.getArrowType(stack).isEmpty() && BraceletItem.hasMobGemEquipped(player, ModItems.SKELETON_MOB_GEM, true)) {
+            return true;
         }
 
         return false;
