@@ -8,6 +8,7 @@ import me.jrm_wrm.mob_gems.items.BraceletItem;
 import me.jrm_wrm.mob_gems.items.MobGemItem;
 import me.jrm_wrm.mob_gems.items.mob_gem_items.BeeMobGem;
 import me.jrm_wrm.mob_gems.items.mob_gem_items.CowMobGem;
+import me.jrm_wrm.mob_gems.items.mob_gem_items.CreeperMobGem;
 import me.jrm_wrm.mob_gems.items.mob_gem_items.IronGolemMobGem;
 import me.jrm_wrm.mob_gems.items.mob_gem_items.SkeletonMobGem;
 import me.jrm_wrm.mob_gems.items.mob_gem_items.ZombieMobGem;
@@ -42,6 +43,7 @@ public class ModItems {
     public static final MobGemItem BEE_MOB_GEM = addMobGem(new BeeMobGem(EntityType.BEE, 0xffd900));
     public static final MobGemItem SKELETON_MOB_GEM = addMobGem(new SkeletonMobGem(EntityType.SKELETON, 0xffffff));
     public static final MobGemItem STRAY_MOB_GEM = addMobGem(new SkeletonMobGem(EntityType.STRAY, 0xffffff));
+    public static final MobGemItem CREEPER_MOB_GEM = addMobGem(new CreeperMobGem(EntityType.CREEPER, 0x02d90d));
     public static final MobGemItem ENDERMAN_MOB_GEM = addMobGem(new MobGemItem(EntityType.ENDERMAN, 0x7030e6));
     
     // Item screen handlers
