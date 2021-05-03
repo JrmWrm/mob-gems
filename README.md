@@ -58,6 +58,7 @@ maybe you like knowing what you're getting yourself into. No worries, all effect
   | ------------- | --------------- | -------------- | ------------ |
   | Zombie | Eating any food will give the wearer hunger | The wearer can eat rotten flesh without getting the hunger effect | All villagers in range will be turned into zombie villagers |
   | Skeleton | Bows will behave like they have infinity | Wolfs won't get angered at you | Projectiles are warded off in the area |
+  | Creeper | When hostile mobs are near and the wearer is not on full health, they will ignite. Run away before you explode! | The wearer gains the new Blast Resistence status effect | All mobs in range can be ignited with flint and steel |
   | Iron Golem | The wearer will have extra max health | The wearer will have less max health | All hostile mobs in range will be pushed away |
   | Cow | All status effects will be removed while wearing | All status effects will slowly increase in strenght (max 5) | All mobs in range can now be milked |
   | Bee | The wearer will polinate (bonemeal) blocks while walking | The wearer will decay organic blocks while walking. Flowers have a small chance of turning into wither roses | All crops and saplings in range will grow faster |
