@@ -3,6 +3,7 @@ package me.jrm_wrm.mob_gems.items.mob_gem_items;
 import java.util.ArrayList;
 
 import me.jrm_wrm.mob_gems.items.MobGemItem;
+import me.jrm_wrm.mob_gems.util.WorldUtil;
 import me.jrm_wrm.mob_gems.util.mixin.ItemUsageContextMixin;
 import net.fabricmc.fabric.api.tag.TagRegistry;
 import net.minecraft.block.Block;
@@ -40,12 +41,12 @@ public class BeeMobGem extends MobGemItem {
     }
 
     @Override
-    public void onAugmenterTick(ItemStack bracelet, ItemStack gemStack, World world, LivingEntity livingEntity, int slot) {      
-        Vec3d pos = livingEntity.getPos();
-        BlockPos blockPos = livingEntity.getBlockPos();
+    public void onAugmenterTick(ItemStack bracelet, ItemStack gemStack, World world, LivingEntity wearer, int slot) {      
+        Vec3d pos = wearer.getPos();
+        BlockPos blockPos = wearer.getBlockPos();
 
         // check if the entity has moved
-        if (movedEntities.contains(livingEntity)) {
+        if (movedEntities.contains(wearer)) {
 
             // loop through all blocks in range
             for (int x = blockPos.getX() - braceletRange; x < blockPos.getX() + braceletRange; x++) {
@@ -66,13 +67,13 @@ public class BeeMobGem extends MobGemItem {
         // check velocity and register as moved
         if (world.isClient) {
             
-            if (livingEntity.getVelocity().getX() == 0 && livingEntity.getVelocity().getZ() == 0) {
-                if (movedEntities.contains(livingEntity)) movedEntities.remove(livingEntity);
+            if (wearer.getVelocity().getX() == 0 && wearer.getVelocity().getZ() == 0) {
+                if (movedEntities.contains(wearer)) movedEntities.remove(wearer);
             } else {
-                if (!movedEntities.contains(livingEntity)) movedEntities.add(livingEntity);
+                if (!movedEntities.contains(wearer)) movedEntities.add(wearer);
                 // render pollination particles at the entity's butt
                 double effectX = pos.getX() + (world.random.nextDouble() - 0.5)/3;
-                double effectY = livingEntity.getBodyY(0.5d);
+                double effectY = wearer.getBodyY(0.5d);
                 double effectZ = pos.getZ() + (world.random.nextDouble() - 0.5)/3;
                 world.addParticle(ParticleTypes.FALLING_NECTAR, effectX, effectY, effectZ, 0.0D, 0.0D, 0.0D);
             }
@@ -81,12 +82,12 @@ public class BeeMobGem extends MobGemItem {
     }
 
     @Override
-    public void onDiminisherTick(ItemStack bracelet, ItemStack gemStack, World world, LivingEntity livingEntity, int slot) {
-        Vec3d pos = livingEntity.getPos();
-        BlockPos blockPos = livingEntity.getBlockPos();
+    public void onDiminisherTick(ItemStack bracelet, ItemStack gemStack, World world, LivingEntity wearer, int slot) {
+        Vec3d pos = wearer.getPos();
+        BlockPos blockPos = wearer.getBlockPos();
 
         // check if the entity has moved
-        if (movedEntities.contains(livingEntity)) {
+        if (movedEntities.contains(wearer)) {
 
             // loop through all blocks in range
             for (int x = blockPos.getX() - braceletRange; x < blockPos.getX() + braceletRange; x++) {
@@ -114,13 +115,13 @@ public class BeeMobGem extends MobGemItem {
         // check velocity and register as moved
         if (world.isClient) {
             
-            if (livingEntity.getVelocity().getX() == 0 && livingEntity.getVelocity().getZ() == 0) {
-                if (movedEntities.contains(livingEntity)) movedEntities.remove(livingEntity);
+            if (wearer.getVelocity().getX() == 0 && wearer.getVelocity().getZ() == 0) {
+                if (movedEntities.contains(wearer)) movedEntities.remove(wearer);
             } else {
-                if (!movedEntities.contains(livingEntity)) movedEntities.add(livingEntity);
+                if (!movedEntities.contains(wearer)) movedEntities.add(wearer);
                 // render ash particles at the entity's butt
                 double effectX = pos.getX() + (world.random.nextDouble() - 0.5)/3;
-                double effectY = livingEntity.getBodyY(0.5d);
+                double effectY = wearer.getBodyY(0.5d);
                 double effectZ = pos.getZ() + (world.random.nextDouble() - 0.5)/3;
                 world.addParticle(ParticleTypes.ASH, effectX, effectY, effectZ, 0.0D, 0.0D, 0.0D);
             }
@@ -130,7 +131,7 @@ public class BeeMobGem extends MobGemItem {
 
     @Override
     public void onCageTick(ItemStack stack, World world, BlockPos pos) {
-        Box box = getRangeBox(pos);
+        Box box = WorldUtil.getRangeBox(pos, CAGE_RANGE);
 
         // loop through all blocks in range
         for (int x = (int) box.minX; x <= box.maxX; x++) {

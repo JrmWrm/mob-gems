@@ -7,6 +7,7 @@ import com.mojang.datafixers.util.Pair;
 import me.jrm_wrm.mob_gems.blocks.GemCageBlockEntity;
 import me.jrm_wrm.mob_gems.items.BraceletItem;
 import me.jrm_wrm.mob_gems.items.MobGemItem;
+import me.jrm_wrm.mob_gems.util.WorldUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -37,7 +38,7 @@ public class ZombieMobGem extends MobGemItem {
         if(world.isClient) return;
 
         // get entities in range
-        List<Entity> entities = world.getOtherEntities(null, getRangeBox(pos));
+        List<Entity> entities = world.getOtherEntities(null, WorldUtil.getRangeBox(pos, CAGE_RANGE));
 
         // wither away all villagers
         for (Entity entity : entities) {
@@ -61,7 +62,7 @@ public class ZombieMobGem extends MobGemItem {
     }
 
     // called from LivingEntityListener#onEat
-    public static void onEat(LivingEntity entity, ItemStack bracelet, ItemStack food) {
+    public static void onEat(LivingEntity wearer, ItemStack bracelet, ItemStack food) {
         BraceletItem braceletItem = (BraceletItem) bracelet.getItem();
         
         // check if the consumed item induces hunger
@@ -73,9 +74,9 @@ public class ZombieMobGem extends MobGemItem {
         // diminishers remove hunger from rotten flesh
         // augmenters add hunger to everything (currently same duration and amplifier as rotten flesh)
         if (!braceletItem.isAugmenter && induceHunger) {
-            entity.removeStatusEffect(StatusEffects.HUNGER);
+            wearer.removeStatusEffect(StatusEffects.HUNGER);
         } else if (braceletItem.isAugmenter) {
-            entity.applyStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 30*20, 0)); 
+            wearer.applyStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 30*20, 0)); 
         }
     }
     

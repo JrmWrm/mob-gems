@@ -1,6 +1,7 @@
 package me.jrm_wrm.mob_gems.events;
 
 import me.jrm_wrm.mob_gems.blocks.GemCageBlockEntity;
+import me.jrm_wrm.mob_gems.items.MobGemItem;
 import me.jrm_wrm.mob_gems.items.mob_gem_items.CowMobGem;
 import me.jrm_wrm.mob_gems.items.mob_gem_items.CreeperMobGem;
 import me.jrm_wrm.mob_gems.util.WorldUtil;
@@ -21,7 +22,7 @@ public class InteractionListener {
         ActionResult actionResult = ActionResult.PASS;
 
         // get gem cages in range
-        for (GemCageBlockEntity blockEntity : WorldUtil.getGemCageBlockEntitiesInRange(world, pos)) {       
+        for (GemCageBlockEntity blockEntity : WorldUtil.getGemCageBlockEntitiesInRange(world, pos, MobGemItem.CAGE_RANGE)) {       
             Item gemItem = blockEntity.getGemStack().getItem();
 
             if (gemItem instanceof CowMobGem) actionResult = CowMobGem.milkEntity(player, hand, entity);

@@ -9,7 +9,7 @@ import me.jrm_wrm.mob_gems.items.MobGemItem;
 import me.jrm_wrm.mob_gems.items.mob_gem_items.ZombieMobGem;
 import me.jrm_wrm.mob_gems.registry.ModItems;
 import me.jrm_wrm.mob_gems.registry.ModMisc;
-import net.minecraft.block.entity.BlockEntity;
+import me.jrm_wrm.mob_gems.util.WorldUtil;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -33,19 +33,12 @@ public class LivingEntityListener {
         if (world.isClient) return ActionResult.PASS;
 
         // get gem cages in range
-
-        world.blockEntities.forEach( (BlockEntity e) -> {
-            if (MobGemItem.getRangeBox(pos).contains(e.getPos().getX(), e.getPos().getY(), e.getPos().getZ()) && 
-                e instanceof GemCageBlockEntity) {
-
-                GemCageBlockEntity gemCageEntity = (GemCageBlockEntity) e;
-                
-                // zombie mob gem code
-                if (entity instanceof VillagerEntity && gemCageEntity.getGemStack().getItem() instanceof ZombieMobGem) {
-                    ZombieMobGem.convertVillager(world, (VillagerEntity) entity, entity.getPos(), gemCageEntity);
-                }
-                
-            }
+        WorldUtil.getGemCageBlockEntitiesInRange(world, pos, MobGemItem.CAGE_RANGE).forEach( (GemCageBlockEntity gemCageEntity) -> {
+            
+            // zombie mob gem code
+            if (entity instanceof VillagerEntity && gemCageEntity.getGemStack().getItem() instanceof ZombieMobGem) {
+                ZombieMobGem.convertVillager(world, (VillagerEntity) entity, entity.getPos(), gemCageEntity);
+            }            
         }); 
 
         return ActionResult.PASS;

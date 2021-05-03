@@ -15,14 +15,13 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 
 public class MobGemItem extends Item {
     private EntityType<?> type;
     private int tint; 
 
-    protected static final int CAGE_RANGE = 10;
+    public static final int CAGE_RANGE = 10;
     private static final String TRANSLATION_ID = "mob_gem";
 
     public <T extends MobEntity> MobGemItem(EntityType<T> type, int tint) {  
@@ -45,13 +44,6 @@ public class MobGemItem extends Item {
 
     public Text getTypeName() {
         return type.getName();
-    }
-
-    // gets a box of the range around the gem
-    public static Box getRangeBox(BlockPos pos) {
-        return new Box(
-            pos.getX() - CAGE_RANGE, pos.getY() - CAGE_RANGE, pos.getZ() - CAGE_RANGE, 
-            pos.getX() + CAGE_RANGE, pos.getY() + CAGE_RANGE, pos.getZ() + CAGE_RANGE);
     }
 
     // all mob gems will have the same translation key

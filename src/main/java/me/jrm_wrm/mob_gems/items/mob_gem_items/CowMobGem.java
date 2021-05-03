@@ -32,23 +32,23 @@ public class CowMobGem extends MobGemItem {
     }
 
     @Override
-    public void onAugmenterTick(ItemStack bracelet, ItemStack gemStack, World world, LivingEntity livingEntity, int slot) {
+    public void onAugmenterTick(ItemStack bracelet, ItemStack gemStack, World world, LivingEntity wearer, int slot) {
         if (world.isClient) return;
 
         ArrayList<StatusEffect> appliedEffects = new ArrayList<StatusEffect>();
         // get all status effect on the entity
-        for (StatusEffectInstance effectInstance : livingEntity.getStatusEffects()) {
+        for (StatusEffectInstance effectInstance : wearer.getStatusEffects()) {
             appliedEffects.add(effectInstance.getEffectType());    
         }
         // remove all status effects from the entity
         for (StatusEffect effect : appliedEffects) {
-            livingEntity.removeStatusEffect(effect);
+            wearer.removeStatusEffect(effect);
         }
     }
     
     @Override
-    public void onDiminisherTick(ItemStack bracelet, ItemStack gemStack, World world, LivingEntity livingEntity, int slot) {
-        for (StatusEffectInstance effect : livingEntity.getStatusEffects()) {
+    public void onDiminisherTick(ItemStack bracelet, ItemStack gemStack, World world, LivingEntity wearer, int slot) {
+        for (StatusEffectInstance effect : wearer.getStatusEffects()) {
             // slowly increase to max level 5
             if (world.random.nextDouble() < 0.01)
                 effect.upgrade(new StatusEffectInstance( effect.getEffectType(), effect.getDuration(), 

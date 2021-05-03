@@ -3,6 +3,7 @@ package me.jrm_wrm.mob_gems.items.mob_gem_items;
 import java.util.List;
 
 import me.jrm_wrm.mob_gems.items.MobGemItem;
+import me.jrm_wrm.mob_gems.util.WorldUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.MobEntity;
@@ -32,7 +33,7 @@ public class SkeletonMobGem extends MobGemItem {
         if(world.isClient) return;
 
         // get entities in range
-        List<Entity> entities = world.getOtherEntities(null, getRangeBox(pos));
+        List<Entity> entities = world.getOtherEntities(null, WorldUtil.getRangeBox(pos, CAGE_RANGE));
 
         // repel all projectiles
         for (Entity entity : entities) {

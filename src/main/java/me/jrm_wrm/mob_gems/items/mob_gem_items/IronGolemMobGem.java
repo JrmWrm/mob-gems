@@ -3,6 +3,7 @@ package me.jrm_wrm.mob_gems.items.mob_gem_items;
 import java.util.List;
 
 import me.jrm_wrm.mob_gems.items.MobGemItem;
+import me.jrm_wrm.mob_gems.util.WorldUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -28,22 +29,22 @@ public class IronGolemMobGem extends MobGemItem {
     }
     
     @Override
-    public void onAugmenterTick(ItemStack bracelet, ItemStack stack, World world, LivingEntity livingEntity, int slot) {
+    public void onAugmenterTick(ItemStack bracelet, ItemStack stack, World world, LivingEntity wearer, int slot) {
         if(world.isClient) return;
         
         // if the entity already has health boost, upgrade it, otherwise apply it
-        if (livingEntity.hasStatusEffect(StatusEffects.HEALTH_BOOST)) {
-            livingEntity.getStatusEffect(StatusEffects.HEALTH_BOOST).upgrade(new StatusEffectInstance(StatusEffects.HEALTH_BOOST, 10, 2, true, false));
+        if (wearer.hasStatusEffect(StatusEffects.HEALTH_BOOST)) {
+            wearer.getStatusEffect(StatusEffects.HEALTH_BOOST).upgrade(new StatusEffectInstance(StatusEffects.HEALTH_BOOST, 10, 2, true, false));
         } else {
-            livingEntity.applyStatusEffect(new StatusEffectInstance(StatusEffects.HEALTH_BOOST, 10, 2, true, false));
+            wearer.applyStatusEffect(new StatusEffectInstance(StatusEffects.HEALTH_BOOST, 10, 2, true, false));
         }
     }
 
     @Override
-    public void onDiminisherTick(ItemStack bracelet, ItemStack stack, World world, LivingEntity livingEntity, int slot) {
+    public void onDiminisherTick(ItemStack bracelet, ItemStack stack, World world, LivingEntity wearer, int slot) {
         if(world.isClient) return;
         
-        livingEntity.applyStatusEffect(new StatusEffectInstance(StatusEffects.HEALTH_BOOST, 10, -4, true, false));
+        wearer.applyStatusEffect(new StatusEffectInstance(StatusEffects.HEALTH_BOOST, 10, -4, true, false));
     }
 
     @Override
@@ -51,7 +52,7 @@ public class IronGolemMobGem extends MobGemItem {
         if(world.isClient) return;
 
         // get entities in range
-        List<Entity> entities = world.getOtherEntities(null, getRangeBox(pos));
+        List<Entity> entities = world.getOtherEntities(null, WorldUtil.getRangeBox(pos, CAGE_RANGE));
 
         // push away all hostile entities
         for (Entity entity : entities) {
