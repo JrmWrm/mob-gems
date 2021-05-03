@@ -34,9 +34,8 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
-	// You may need to force-disable transitiveness on them.
-	modImplementation "top.theillusivec4.curios:curios-fabric:0.0.13-1.16.5"
+	// Mod dependenciess
+	modApi "top.theillusivec4.curios:curios-fabric:${project.curios_version}"
 }
 
 processResources {

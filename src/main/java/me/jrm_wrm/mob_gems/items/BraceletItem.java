@@ -1,15 +1,18 @@
 package me.jrm_wrm.mob_gems.items;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import com.google.common.base.Predicate;
 
+import me.jrm_wrm.mob_gems.MobGems;
 import me.jrm_wrm.mob_gems.gui.BraceletScreenHandler;
 import me.jrm_wrm.mob_gems.util.ImplementedInventory;
 import net.fabricmc.fabric.api.item.v1.EquipmentSlotProvider;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
@@ -154,15 +157,21 @@ public class BraceletItem extends Item {
 
     public static ItemStack getEquippedBracelet(LivingEntity entity) {
         Predicate<ItemStack> filter = stack -> stack.getItem() instanceof BraceletItem;
+
+        // get the bracelet from equipped items
         Stream<ItemStack> equippedStream = StreamSupport.stream(entity.getItemsEquipped().spliterator(), false);
+        Optional<ItemStack> braceletOptional = equippedStream.filter(filter).findFirst();
 
-        ItemStack bracelet = equippedStream.filter(filter).findFirst().orElse(
-            CuriosApi.getCuriosHelper()
-                .findEquippedCurio(filter, entity)
-                .map(triple -> triple.getRight())
-                .orElse(ItemStack.EMPTY));
+        // if curios is installed and bracelet is null, search for bracelet in curios
+        if (FabricLoader.getInstance().isModLoaded(MobGems.CURIOS_MOD_ID)) {
+            if (!braceletOptional.isPresent()) 
+                braceletOptional = CuriosApi.getCuriosHelper()
+                    .findEquippedCurio(filter, entity)
+                    .map(triple -> triple.getRight());
+        }
 
-        return bracelet;
+        // return bracelet or empty stack if no bracelet found
+        return braceletOptional.orElse(ItemStack.EMPTY);
     }
 
     // check if an entity is wearing a augmenter/diminisher bracelet with a specific mob gem

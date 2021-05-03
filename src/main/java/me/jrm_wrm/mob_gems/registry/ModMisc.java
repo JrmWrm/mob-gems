@@ -4,6 +4,7 @@ import me.jrm_wrm.mob_gems.MobGems;
 import me.jrm_wrm.mob_gems.enchantments.CaptureEnchantment;
 import me.jrm_wrm.mob_gems.status_effects.BlastResistanceStatusEffect;
 import me.jrm_wrm.mob_gems.status_effects.CombustionStatusEffect;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.util.Identifier;
@@ -30,7 +31,8 @@ public class ModMisc {
         Registry.register(Registry.STATUS_EFFECT, new Identifier(MobGems.MOD_ID, "blast_resistance"), BLAST_RESISTANCE_EFFECT);
 
         // Register curios slot
-        CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.BRACELET.getInfoBuilder().build());
+        if (FabricLoader.getInstance().isModLoaded(MobGems.CURIOS_MOD_ID))
+            CuriosApi.enqueueSlotType(BuildScheme.REGISTER, SlotTypePreset.BRACELET.getInfoBuilder().build());
     }
     
 }

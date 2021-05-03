@@ -21,6 +21,9 @@ public class MobGems implements ModInitializer {
     public static final ItemGroup MOD_ITEM_GROUP = FabricItemGroupBuilder.build(new Identifier(MobGems.MOD_ID, "mod_items"), 
         () -> new ItemStack(ModItems.GEM_CAGE));
 
+	// Mod integration
+	public static final String CURIOS_MOD_ID = "curios";
+
 	@Override
 	public void onInitialize() {
 		System.out.println("Mob Gems is installed! :D");
