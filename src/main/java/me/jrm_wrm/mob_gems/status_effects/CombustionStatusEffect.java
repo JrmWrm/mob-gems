@@ -58,16 +58,24 @@ public class CombustionStatusEffect extends StatusEffect {
             Explosion.DestructionType destructionType = world.getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING) 
                 ? Explosion.DestructionType.DESTROY : Explosion.DestructionType.NONE;
 
-            setEntityIgnited(entity, false);      
             entity.damage(DamageSource.explosion((LivingEntity)null), 9999);
             world.createExplosion(null, entity.getX(), entity.getBodyY(0.5F), entity.getZ(), amplifier + 1, destructionType);
         }
     }
 
+    // when applied, play sound and set ignited to true for the rendering code
     @Override
     public void onApplied(LivingEntity entity, AttributeContainer attributes, int amplifier) {
+        super.onApplied(entity, attributes, amplifier);
         setEntityIgnited(entity, true);       
         entity.world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ENTITY_CREEPER_PRIMED, SoundCategory.HOSTILE, 1.0F, 0.5F);
+    }
+
+    // when removed, set ignited to false for rendering code
+    @Override
+    public void onRemoved(LivingEntity entity, AttributeContainer attributes, int amplifier) {
+        super.onRemoved(entity, attributes, amplifier);
+        setEntityIgnited(entity, false);
     }
 
     private void setEntityIgnited(LivingEntity entity, boolean ignited) {
