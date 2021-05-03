@@ -2,10 +2,11 @@ package me.jrm_wrm.mob_gems.events;
 
 import me.jrm_wrm.mob_gems.blocks.GemCageBlockEntity;
 import me.jrm_wrm.mob_gems.items.mob_gem_items.CowMobGem;
+import me.jrm_wrm.mob_gems.items.mob_gem_items.CreeperMobGem;
 import me.jrm_wrm.mob_gems.util.WorldUtil;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.EntityHitResult;
@@ -20,13 +21,11 @@ public class InteractionListener {
         ActionResult actionResult = ActionResult.PASS;
 
         // get gem cages in range
-        for (GemCageBlockEntity e : WorldUtil.getGemCageBlockEntitiesInRange(world, pos)) {
-            
-            // cow mob gem code
-            if (entity instanceof LivingEntity && e.getGemStack().getItem() instanceof CowMobGem) {
-                actionResult = CowMobGem.milkEntity(player, hand, (LivingEntity) entity);
-            }
-            
+        for (GemCageBlockEntity blockEntity : WorldUtil.getGemCageBlockEntitiesInRange(world, pos)) {       
+            Item gemItem = blockEntity.getGemStack().getItem();
+
+            if (gemItem instanceof CowMobGem) actionResult = CowMobGem.milkEntity(player, hand, entity);
+            if (gemItem instanceof CreeperMobGem) actionResult = CreeperMobGem.igniteEntity(player, hand, entity);         
         } 
 
         return actionResult;

@@ -3,6 +3,7 @@ package me.jrm_wrm.mob_gems.items.mob_gem_items;
 import java.util.ArrayList;
 
 import me.jrm_wrm.mob_gems.items.MobGemItem;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
@@ -34,11 +35,13 @@ public class CowMobGem extends MobGemItem {
     public void onAugmenterTick(ItemStack bracelet, ItemStack gemStack, World world, LivingEntity livingEntity, int slot) {
         if (world.isClient) return;
 
-        ArrayList<StatusEffect> effects = new ArrayList<StatusEffect>();
+        ArrayList<StatusEffect> appliedEffects = new ArrayList<StatusEffect>();
+        // get all status effect on the entity
         for (StatusEffectInstance effectInstance : livingEntity.getStatusEffects()) {
-            effects.add(effectInstance.getEffectType());    
+            appliedEffects.add(effectInstance.getEffectType());    
         }
-        for (StatusEffect effect : effects) {
+        // remove all status effects from the entity
+        for (StatusEffect effect : appliedEffects) {
             livingEntity.removeStatusEffect(effect);
         }
     }
@@ -54,11 +57,14 @@ public class CowMobGem extends MobGemItem {
     }
 
     // called via InteractionListener when right clicking an entity in the range of a gem cage with a cow mob gem
-    public static ActionResult milkEntity(PlayerEntity player, Hand hand, LivingEntity entity) {
+    public static ActionResult milkEntity(PlayerEntity player, Hand hand, Entity entity) {
+        if (!(entity instanceof MobEntity)) return ActionResult.PASS;
+        
         ItemStack handStack = player.getStackInHand(hand);
+        MobEntity mob = (MobEntity) entity;
 
         // if the player is weilding a bucket, use ItemUsage to fill the bucket with milk
-        if (handStack.getItem() == Items.BUCKET && !entity.isBaby()) {
+        if (handStack.getItem() == Items.BUCKET && !mob.isBaby()) {
             player.playSound(SoundEvents.ENTITY_COW_MILK, 1.0F, 1.0F);
             ItemStack filledBucket = ItemUsage.method_30012(handStack, player, Items.MILK_BUCKET.getDefaultStack());
             player.setStackInHand(hand, filledBucket);
