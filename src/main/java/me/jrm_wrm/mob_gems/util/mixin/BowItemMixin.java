@@ -19,7 +19,7 @@ public class BowItemMixin {
      *  skeleton mob gem augmenter code 
      *  {@SkeletonMobGem.java}
      */ 
-    @ModifyVariable(method = "onStoppedUsing", at = @At(value = "INVOKE", target="Lnet/minecraft/entity/player/PlayerEntity;getArrowType"))
+    @ModifyVariable(method = "onStoppedUsing", at = @At(value = "INVOKE", target="Lnet/minecraft/entity/player/PlayerEntity;getArrowType(Lnet/minecraft/item/ItemStack;)Lnet/minecraft/item/ItemStack;"))
     public boolean onShoot(boolean bl, ItemStack stack, World world, LivingEntity user) {
 
         PlayerEntity player = (PlayerEntity) user;

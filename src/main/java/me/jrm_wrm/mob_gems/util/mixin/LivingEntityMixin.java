@@ -37,7 +37,10 @@ public abstract class LivingEntityMixin implements LivingEntityAccess {
         LivingEntityCallback.ON_DEATH.invoker().onDeath((LivingEntity) (Object) this, source);
     }
 
-    @Inject(method = "eatFood", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;applyFoodEffects", shift = Shift.AFTER))
+    @Inject(method = "eatFood", 
+        at = @At(value = "INVOKE", 
+            target = "Lnet/minecraft/entity/LivingEntity;applyFoodEffects(Lnet/minecraft/item/ItemStack; Lnet/minecraft/world/World; Lnet/minecraft/entity/LivingEntity;)V", 
+            shift = Shift.AFTER))
     private void eatFood(World world, ItemStack stack, CallbackInfoReturnable<ItemStack> info) {
         LivingEntityCallback.ON_EAT.invoker().onEat(world, (LivingEntity) (Object) this, stack);
     }
@@ -45,8 +48,6 @@ public abstract class LivingEntityMixin implements LivingEntityAccess {
     @Inject(method = "applyEnchantmentsToDamage", at = @At("TAIL"), cancellable = true)
     private void applyBlastResistanceToDamage(DamageSource source, float amount, CallbackInfoReturnable<Float> cir) {
         LivingEntity entity = (LivingEntity) (Object) this;
-
-        System.out.println("Resistance? " + entity);
 
         // if the damage source is an explosion, and the entity has blast resistance increase the dmg protection
         // code yanked from the resistance effect (from this same method)

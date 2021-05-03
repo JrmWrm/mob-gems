@@ -27,7 +27,7 @@ public abstract class WolfEntityMixin extends TameableEntity {
      *  skeleton mob gem diminisher code 
      *  {@SkeletonMobGem.java}
      */ 
-	@Inject(method = "tickMovement", at = @At(value = "INVOKE", target = "tickAngerLogic"))
+	@Inject(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/passive/WolfEntity;tickAngerLogic(Lnet/minecraft/server/world/ServerWorld; Z)V"))
 	public void stopAngerOnTickMove(CallbackInfo info) {
  
 		WolfEntity wolf = (WolfEntity) (Object) this;
