@@ -36,7 +36,7 @@ public class IronGolemMobGem extends MobGemItem {
         if (wearer.hasStatusEffect(StatusEffects.HEALTH_BOOST)) {
             wearer.getStatusEffect(StatusEffects.HEALTH_BOOST).upgrade(new StatusEffectInstance(StatusEffects.HEALTH_BOOST, 10, 2, true, false));
         } else {
-            wearer.applyStatusEffect(new StatusEffectInstance(StatusEffects.HEALTH_BOOST, 10, 2, true, false));
+            wearer.applyStatusEffect(new StatusEffectInstance(StatusEffects.HEALTH_BOOST, 10, 2, true, false, true));
         }
     }
 
@@ -44,7 +44,7 @@ public class IronGolemMobGem extends MobGemItem {
     public void onDiminisherTick(ItemStack bracelet, ItemStack stack, World world, LivingEntity wearer, int slot) {
         if(world.isClient) return;
         
-        wearer.applyStatusEffect(new StatusEffectInstance(StatusEffects.HEALTH_BOOST, 10, -4, true, false));
+        wearer.applyStatusEffect(new StatusEffectInstance(StatusEffects.HEALTH_BOOST, 10, -4, true, false, true));
     }
 
     @Override
