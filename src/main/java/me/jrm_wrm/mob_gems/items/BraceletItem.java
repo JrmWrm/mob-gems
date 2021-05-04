@@ -17,6 +17,7 @@ import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
@@ -28,6 +29,7 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
@@ -67,6 +69,7 @@ public class BraceletItem extends Item {
     @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
         super.inventoryTick(stack, world, entity, slot, selected);
+        if (!(entity instanceof PlayerEntity)) System.out.println(entity);
 
         DefaultedList<ItemStack> items = getStoredItems(stack);
 
@@ -77,12 +80,6 @@ public class BraceletItem extends Item {
                 mobGem.onBraceletTick(stack, i, world, entity, items.indexOf(i));
             }
         }
-        
-        /*if (world.random.nextDouble() < ModItems.MOB_GEM_DRAIN_FACTOR * count && stack.getDamage() < stack.getMaxDamage()) {       
-            System.out.println("before: "+stack.getTag());        
-            stack.setDamage(stack.getDamage() + 1);
-            System.out.println("after: "+stack.getDamage());
-        }*/
     }
 
     @Override
@@ -121,6 +118,19 @@ public class BraceletItem extends Item {
         player.openHandledScreen(screenHandlerFactory);
 
         return TypedActionResult.success(stack);
+    }
+
+    @Override
+    public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
+        if (entity.world.isClient) return ActionResult.SUCCESS;
+
+        // when used on an entity, try to equip it
+        if (entity instanceof MobEntity) {
+            if (((MobEntity) entity).tryEquip(stack.copy()))
+                stack.decrement(1);
+            System.out.println(entity.getItemsEquipped());
+        } 
+        return ActionResult.SUCCESS;
     }
 
     // static util methods
