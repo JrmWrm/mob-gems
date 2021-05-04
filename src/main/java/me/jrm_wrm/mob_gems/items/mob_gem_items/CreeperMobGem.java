@@ -1,6 +1,7 @@
 package me.jrm_wrm.mob_gems.items.mob_gem_items;
 
 import java.util.Random;
+import java.util.function.Predicate;
 
 import me.jrm_wrm.mob_gems.items.MobGemItem;
 import me.jrm_wrm.mob_gems.registry.ModMisc;
@@ -42,9 +43,15 @@ public class CreeperMobGem extends MobGemItem {
         // get all entities in range
         Box rangeBox = WorldUtil.getRangeBox(wearer.getPos(), augmenterRange);
 
+        // either the wearer is not hostile and the igniting entity should be
+        // or the wearer is hostile and the igniting entity shouldn't be
+        Predicate<Entity> ignitionFilter = 
+            entity -> (!(wearer instanceof HostileEntity) && entity instanceof HostileEntity)
+                || (wearer instanceof HostileEntity && entity instanceof LivingEntity && !(entity instanceof HostileEntity));
+
         // if there is a hostile mob in range & the wearer doesn't have the combustion effect
         // apply the combustion effect
-        if (world.getOtherEntities(wearer, rangeBox).stream().anyMatch((entity) -> entity instanceof HostileEntity)) {
+        if (world.getOtherEntities(wearer, rangeBox).stream().anyMatch(ignitionFilter)) {
             if (!wearer.hasStatusEffect(ModMisc.COMBUSTION_EFFECT))
                 wearer.applyStatusEffect(new StatusEffectInstance(ModMisc.COMBUSTION_EFFECT, 20*3, 1, true, false, true));
         }

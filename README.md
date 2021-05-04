@@ -19,7 +19,7 @@ make sure to have a **diamond in your off-hand**, which will be turned into a mo
 
 ### Bracelets
 Bracelets grant the wearer certain effects or abillities that represent a mob's characteristics. These can be either good or bad depending on the mob and the type of bracelet.
-Bracelets can be worn on the chest, in your main or off-hand or in the Curios Bracelet slot. Only one bracelet can be active at a time.
+Bracelets can be worn on the chest, in your main or off-hand or in the Curios Bracelet slot. Only one bracelet can be active at a time. You can also right click a mob with a bracelet to have them equip it.
 
 - **Golden Bracelets** augment a mob's characteristic, granting the wearer an effect that mimics a mob's behaviour, abilities, etc...
 - **Iron Bracelets** diminish a mob's characteristic, granting the wearer an opposite effect of a mob's characteristic
@@ -56,12 +56,13 @@ maybe you like knowing what you're getting yourself into. No worries, all effect
   
   | Mob           | Golden Bracelet | Iron Bracelet  | Gem Cage     |
   | ------------- | --------------- | -------------- | ------------ |
-  | Zombie | Eating any food will give the wearer hunger | The wearer can eat rotten flesh without getting the hunger effect | All villagers in range will be turned into zombie villagers |
-  | Skeleton | Bows will behave like they have infinity | Wolfs won't get angered at you | Projectiles are warded off in the area |
+  | Zombie (& variants) | Eating any food will give the wearer hunger | The wearer can eat rotten flesh without getting the hunger effect | All villagers in range will be turned into zombie villagers |
+  | Skeleton (& variants) | Bows will behave like they have infinity | Wolfs won't get angered at you | Projectiles are warded off in the area |
   | Creeper | When hostile mobs are near and the wearer is not on full health, they will ignite. Run away before you explode! | The wearer gains the new Blast Resistence status effect | All mobs in range can be ignited with flint and steel |
   | Iron Golem | The wearer will have extra max health | The wearer will have less max health | All hostile mobs in range will be pushed away |
   | Cow | All status effects will be removed while wearing | All status effects will slowly increase in strenght (max 5) | All mobs in range can now be milked |
   | Bee | The wearer will polinate (bonemeal) blocks while walking | The wearer will decay organic blocks while walking. Flowers have a small chance of turning into wither roses | All crops and saplings in range will grow faster |
+  | Chicken | The wearer will recieve the slow falling effect | The wearer will be heavier: less jump height & more fall damage | All mobs in range will now lay eggs |
   
 </details>
 
