@@ -44,7 +44,7 @@ public class IronGolemMobGem extends MobGemItem {
     public void onDiminisherTick(ItemStack bracelet, ItemStack stack, World world, LivingEntity wearer, int slot) {
         if(world.isClient) return;
         
-        wearer.applyStatusEffect(new StatusEffectInstance(StatusEffects.HEALTH_BOOST, 10, -4, true, false, true));
+        wearer.applyStatusEffect(new StatusEffectInstance(StatusEffects.HEALTH_BOOST, 10, -4, true, false, false));
     }
 
     @Override
