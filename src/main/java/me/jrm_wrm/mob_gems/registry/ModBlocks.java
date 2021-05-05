@@ -5,6 +5,8 @@ import me.jrm_wrm.mob_gems.blocks.GemCageBlock;
 import me.jrm_wrm.mob_gems.blocks.GemCageBlockEntity;
 import me.jrm_wrm.mob_gems.blocks.GemCageBlockEntityRenderer;
 import me.jrm_wrm.mob_gems.gui.GemCageScreenHandler;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -50,6 +52,7 @@ public class ModBlocks {
     /**
      * Must be called from the client initializer!
      */
+    @Environment(EnvType.CLIENT)
     public static void registerBlockRendering() {
         // make Gem Cage transparent
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.GEM_CAGE, RenderLayer.getCutout());

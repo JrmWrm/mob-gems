@@ -8,11 +8,10 @@
     "ItemUsageContextMixin",
     "BowItemMixin",
     "WolfEntityMixin",
-    "LivingEntityRendererMixin",
     "MobEntityMixin"
   ],
-  "client": [
-    
+  "client": [ 
+    "LivingEntityRendererMixin"
   ],
   "server": [
     

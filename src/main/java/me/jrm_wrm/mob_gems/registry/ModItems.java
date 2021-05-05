@@ -13,6 +13,8 @@ import me.jrm_wrm.mob_gems.items.mob_gem_items.CreeperMobGem;
 import me.jrm_wrm.mob_gems.items.mob_gem_items.IronGolemMobGem;
 import me.jrm_wrm.mob_gems.items.mob_gem_items.SkeletonMobGem;
 import me.jrm_wrm.mob_gems.items.mob_gem_items.ZombieMobGem;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
@@ -60,18 +62,24 @@ public class ModItems {
         
         // register all mob gem items
         for (MobGemItem item : mobGemItems.values()) {
-            String path = item.getTypeKey().replace("entity.", "").replace('.', '_') + "_mob_gem";
-            
+            String path = item.getTypeKey().replace("entity.", "").replace('.', '_') + "_mob_gem";    
             Registry.register(Registry.ITEM, new Identifier(MobGems.MOD_ID, path), item);
-            ColorProviderRegistry.ITEM.register((stack, tintIndex) -> item.getTint(), item);
-            
-            System.out.println("Registered mob gem: " + path + " with hue: " + item.getTint());
         }
         
         // register screen handlers
         BRACELET_SCREEN_HANDLER = ScreenHandlerRegistry.registerSimple(new Identifier(MobGems.MOD_ID, "bracelet"), BraceletScreenHandler::new);
     }
     
+    /**
+     * Should be called from client initialzier!
+     */
+    @Environment(EnvType.CLIENT)
+    public static void registerMobGemColors() {
+        for (MobGemItem item : mobGemItems.values()) {
+            ColorProviderRegistry.ITEM.register((stack, tintIndex) -> item.getTint(), item);
+        }
+    }
+
     // Mob Gem util methods
     private static MobGemItem addMobGem(MobGemItem mobGemItem) {
         mobGemItems.put(mobGemItem.getTypeKey(), mobGemItem);
