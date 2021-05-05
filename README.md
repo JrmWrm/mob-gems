@@ -2,8 +2,8 @@
 Mob Gems is a **Fabric** mod for Minecraft **1.16.5** based around capturing mobs in diamonds to harness their powers!
 
 - With the Capture enchantment you can trap mobs in mob gems
-- Bracelets allows you to gain abillities (good or bad) based on mob gems
-- Gem Cages utilize mob gems to create area effects
+- Bracelets allows you to gain abilities (good or bad) based on mob gems
+- Gem Cages utilise mob gems to create area effects
 
 **Note:** This mod supports **Curios API** (https://www.curseforge.com/minecraft/mc-mods/curios-fabric), which allows you to wear bracelets and chestpieces at the same time!
 
