@@ -44,7 +44,7 @@ public class ModItems {
     public static final MobGemItem BEE_MOB_GEM = addMobGem(new BeeMobGem(EntityType.BEE, 0xffd900));
     public static final MobGemItem SKELETON_MOB_GEM = addMobGem(new SkeletonMobGem(EntityType.SKELETON, 0xffffff));
     public static final MobGemItem STRAY_MOB_GEM = addMobGem(new SkeletonMobGem(EntityType.STRAY, 0xffffff));
-    public static final MobGemItem CREEPER_MOB_GEM = addMobGem(new CreeperMobGem(EntityType.CREEPER, 0x02d90d));
+    public static final MobGemItem CREEPER_MOB_GEM = addMobGem(new CreeperMobGem(EntityType.CREEPER, 0x26b816));
     public static final MobGemItem CHICKEN_MOB_GEM = addMobGem(new ChickenMobGem(EntityType.CHICKEN, 0xd1c7ab));
     public static final MobGemItem ENDERMAN_MOB_GEM = addMobGem(new MobGemItem(EntityType.ENDERMAN, 0x7030e6));
     
