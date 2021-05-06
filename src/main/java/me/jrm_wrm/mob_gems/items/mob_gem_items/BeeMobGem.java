@@ -1,10 +1,14 @@
 package me.jrm_wrm.mob_gems.items.mob_gem_items;
 
 import java.util.ArrayList;
+import java.util.function.BiConsumer;
 
 import me.jrm_wrm.mob_gems.items.MobGemItem;
+import me.jrm_wrm.mob_gems.registry.ModPackets;
 import me.jrm_wrm.mob_gems.util.WorldUtil;
 import me.jrm_wrm.mob_gems.util.mixin.ItemUsageContextMixin;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.tag.TagRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -15,6 +19,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.Items;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
@@ -40,52 +46,67 @@ public class BeeMobGem extends MobGemItem {
         super(type, tint);
     }
 
+    // Bracelet code
+    //#region
     @Override
     public void onAugmenterTick(ItemStack bracelet, ItemStack gemStack, World world, LivingEntity wearer, int slot) {      
-        Vec3d pos = wearer.getPos();
-        BlockPos blockPos = wearer.getBlockPos();
-
-        // check if the entity has moved
-        if (movedEntities.contains(wearer)) {
-
-            // loop through all blocks in range
-            for (int x = blockPos.getX() - braceletRange; x < blockPos.getX() + braceletRange; x++) {
-                for (int y = blockPos.getY() - braceletRange; y < blockPos.getY() + braceletRange; y++) {
-                    for (int z = blockPos.getZ() - braceletRange; z < blockPos.getZ() + braceletRange; z++) {
-
-                        BlockPos blockPos2 = new BlockPos(x, y, z);
-
-                        // only bonemeal every now and then
-                        if (world.random.nextDouble() < 0.004) {
-                            bonemeal(new Vec3d(pos.getX(), pos.getY(), pos.getZ()), blockPos2, world);
-                        }
-                    }
-                }
-            }
-        }
-
-        // check velocity and register as moved
-        if (world.isClient) {
-            
-            if (wearer.getVelocity().getX() == 0 && wearer.getVelocity().getZ() == 0) {
-                if (movedEntities.contains(wearer)) movedEntities.remove(wearer);
-            } else {
-                if (!movedEntities.contains(wearer)) movedEntities.add(wearer);
-                // render pollination particles at the entity's butt
-                double effectX = pos.getX() + (world.random.nextDouble() - 0.5)/3;
-                double effectY = wearer.getBodyY(0.5d);
-                double effectZ = pos.getZ() + (world.random.nextDouble() - 0.5)/3;
-                world.addParticle(ParticleTypes.FALLING_NECTAR, effectX, effectY, effectZ, 0.0D, 0.0D, 0.0D);
-            }
-
-        }
+        beeBraceletTick(world, wearer, ParticleTypes.FALLING_NECTAR, (sourcePos, targetPos) -> {      
+            // only bonemeal every now and then
+            if (world.random.nextDouble() > 0.004) return;
+            bonemeal(new Vec3d(sourcePos.getX(), sourcePos.getY(), sourcePos.getZ()), targetPos, world);
+        });
     }
 
     @Override
     public void onDiminisherTick(ItemStack bracelet, ItemStack gemStack, World world, LivingEntity wearer, int slot) {
+        beeBraceletTick(world, wearer, ParticleTypes.ASH, (sourcePos, targetPos) -> {        
+            // only destroy every now and then
+            if (world.random.nextDouble() > 0.05) return;
+
+            Block block = world.getBlockState(targetPos).getBlock();
+            boolean flower = block.isIn(TagRegistry.block(new Identifier("minecraft", "flowers"))) && block != Blocks.WITHER_ROSE;
+
+            // if it's a flower or grass remove block
+            // if it's a flower, small chance of turning into a wither rose
+            if (flower || isGrowable(block) || block == Blocks.GRASS || block == Blocks.TALL_GRASS) {
+                world.removeBlock(targetPos, false);
+                world.updateNeighbors(targetPos, block);
+                if (flower && world.random.nextDouble() < 0.1) world.setBlockState(targetPos, Blocks.WITHER_ROSE.getDefaultState());
+            }
+        });
+    }
+
+    // the universal code for both augmenter and diminisher logic
+    private void beeBraceletTick(World world, LivingEntity wearer, ParticleEffect particle, BiConsumer<Vec3d, BlockPos> blockHandler) {
         Vec3d pos = wearer.getPos();
         BlockPos blockPos = wearer.getBlockPos();
 
+        if (world.isClient) {
+            
+            if (wearer.getVelocity().getX() == 0 && wearer.getVelocity().getZ() == 0) {
+                // if standing still, remove from the moving entities list
+                if (movedEntities.contains(wearer)) {
+                    movedEntities.remove(wearer);
+                    sendMovingPacket(false, wearer.getEntityId());
+                }
+            } else {  
+                // else, if moving, add to the movig entities list
+                if (!movedEntities.contains(wearer)) {
+                    movedEntities.add(wearer);
+                    sendMovingPacket(true, wearer.getEntityId());
+                }
+
+                // and render particles at the entity's butt
+                double effectX = pos.getX() + (world.random.nextDouble() - 0.5)/3;
+                double effectY = wearer.getBodyY(0.5d);
+                double effectZ = pos.getZ() + (world.random.nextDouble() - 0.5)/3;
+                world.addParticle(particle, effectX, effectY, effectZ, 0.0D, 0.0D, 0.0D);
+            }
+
+            // act as guard clause
+            return;
+        }
+        
         // check if the entity has moved
         if (movedEntities.contains(wearer)) {
 
@@ -94,40 +115,15 @@ public class BeeMobGem extends MobGemItem {
                 for (int y = blockPos.getY() - braceletRange; y < blockPos.getY() + braceletRange; y++) {
                     for (int z = blockPos.getZ() - braceletRange; z < blockPos.getZ() + braceletRange; z++) {
 
-                        // only destroy every now and then
-                        if (world.random.nextDouble() > 0.05) continue;
-
-                        BlockPos blockPos2 = new BlockPos(x, y, z);
-                        Block block = world.getBlockState(blockPos2).getBlock();
-                        boolean flower = block.isIn(TagRegistry.block(new Identifier("minecraft", "flowers"))) && block != Blocks.WITHER_ROSE;
-
-                        // if it's a flower or grass remove block
-                        // if it's a flower, small chance of turning into a wither rose
-                        if (flower || isGrowable(block) || block == Blocks.GRASS || block == Blocks.TALL_GRASS) {
-                            world.removeBlock(blockPos2, false);
-                            if (flower && world.random.nextDouble() < 0.1) world.setBlockState(blockPos2, Blocks.WITHER_ROSE.getDefaultState());
-                        }
+                        // handle the augmenter/diminisher code
+                        BlockPos targetPos = new BlockPos(x, y, z);
+                        blockHandler.accept(pos, targetPos);
                     }
                 }
             }
         }
-
-        // check velocity and register as moved
-        if (world.isClient) {
-            
-            if (wearer.getVelocity().getX() == 0 && wearer.getVelocity().getZ() == 0) {
-                if (movedEntities.contains(wearer)) movedEntities.remove(wearer);
-            } else {
-                if (!movedEntities.contains(wearer)) movedEntities.add(wearer);
-                // render ash particles at the entity's butt
-                double effectX = pos.getX() + (world.random.nextDouble() - 0.5)/3;
-                double effectY = wearer.getBodyY(0.5d);
-                double effectZ = pos.getZ() + (world.random.nextDouble() - 0.5)/3;
-                world.addParticle(ParticleTypes.ASH, effectX, effectY, effectZ, 0.0D, 0.0D, 0.0D);
-            }
-
-        }
     }
+    //#endregion
 
     @Override
     public void onCageTick(ItemStack stack, World world, BlockPos pos) {
@@ -167,5 +163,24 @@ public class BeeMobGem extends MobGemItem {
             Items.BONE_MEAL.useOnBlock(context);
         }
     }
+
+    // Networking code
+    //#region
+    private void sendMovingPacket(boolean moving, int entityId) {
+        PacketByteBuf buf = PacketByteBufs.create();
+        buf.writeBoolean(moving);
+        buf.writeInt(entityId);
+        ClientPlayNetworking.send(ModPackets.SET_MOVING_TAG_PACKET_ID, buf);
+    }
+
+    public void receiveMovingPacket(boolean moving, int entityId,  PlayerEntity player) {
+        LivingEntity entity = (LivingEntity) player.world.getEntityById(entityId);
+    
+        System.out.println(moving);
+
+        if (moving) movedEntities.add(entity);
+        else movedEntities.remove(entity);
+    }
+    //#endregion
     
 }

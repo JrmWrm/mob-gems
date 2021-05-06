@@ -43,7 +43,7 @@ public class ModItems {
     public static final MobGemItem ZOMBIE_VILLAGER_MOB_GEM = addMobGem(new ZombieMobGem(EntityType.ZOMBIE_VILLAGER, 0xadfc03));
     public static final MobGemItem HUSK_MOB_GEM = addMobGem(new ZombieMobGem(EntityType.HUSK, 0xadfc03));
     public static final MobGemItem COW_MOB_GEM = addMobGem(new CowMobGem(EntityType.COW, 0x805501));
-    public static final MobGemItem BEE_MOB_GEM = addMobGem(new BeeMobGem(EntityType.BEE, 0xffd900));
+    public static final BeeMobGem BEE_MOB_GEM = (BeeMobGem) addMobGem(new BeeMobGem(EntityType.BEE, 0xffd900));
     public static final MobGemItem SKELETON_MOB_GEM = addMobGem(new SkeletonMobGem(EntityType.SKELETON, 0xffffff));
     public static final MobGemItem STRAY_MOB_GEM = addMobGem(new SkeletonMobGem(EntityType.STRAY, 0xffffff));
     public static final MobGemItem CREEPER_MOB_GEM = addMobGem(new CreeperMobGem(EntityType.CREEPER, 0x26b816));

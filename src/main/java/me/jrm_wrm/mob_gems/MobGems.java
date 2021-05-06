@@ -5,6 +5,7 @@ import me.jrm_wrm.mob_gems.registry.ModEvents;
 import me.jrm_wrm.mob_gems.registry.ModItems;
 import me.jrm_wrm.mob_gems.registry.ModLoot;
 import me.jrm_wrm.mob_gems.registry.ModMisc;
+import me.jrm_wrm.mob_gems.registry.ModServerNetworking;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.minecraft.item.ItemGroup;
@@ -32,6 +33,7 @@ public class MobGems implements ModInitializer {
 		ModMisc.registerMiscellanious();
 		ModEvents.registerEvents();
 		ModLoot.modifyLootTables();
+		ModServerNetworking.registerServerReceivers();
 	}
 
 }
