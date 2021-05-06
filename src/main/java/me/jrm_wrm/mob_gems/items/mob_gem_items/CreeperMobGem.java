@@ -53,7 +53,7 @@ public class CreeperMobGem extends MobGemItem {
         // apply the combustion effect
         if (world.getOtherEntities(wearer, rangeBox).stream().anyMatch(ignitionFilter)) {
             if (!wearer.hasStatusEffect(ModMisc.COMBUSTION_EFFECT))
-                wearer.applyStatusEffect(new StatusEffectInstance(ModMisc.COMBUSTION_EFFECT, 20*3, 1, true, false, true));
+                wearer.addStatusEffect(new StatusEffectInstance(ModMisc.COMBUSTION_EFFECT, 20*3, 1, true, false, true));
         }
         // else, if there is no hostile entity 
         // and the combustion effect is ambient (if the wearer gets the combustion effect through other means, it shouldn't be negated)
@@ -68,7 +68,7 @@ public class CreeperMobGem extends MobGemItem {
     public void onDiminisherTick(ItemStack bracelet, ItemStack stack, World world, LivingEntity wearer, int slot) {
         if (world.isClient) return;
         
-        wearer.applyStatusEffect(new StatusEffectInstance(ModMisc.BLAST_RESISTANCE_EFFECT, 10, 2, true, false, true));
+        wearer.addStatusEffect(new StatusEffectInstance(ModMisc.BLAST_RESISTANCE_EFFECT, 10, 2, true, false, true));
     }
 
     public static ActionResult igniteEntity(PlayerEntity player, Hand hand, Entity entity) {
@@ -79,7 +79,7 @@ public class CreeperMobGem extends MobGemItem {
 
         // if the player is weilding flint and steel, apply the combustion effect to the mob
         if (handStack.getItem() == Items.FLINT_AND_STEEL) {
-            mob.applyStatusEffect(new StatusEffectInstance(ModMisc.COMBUSTION_EFFECT, 20*4, 1, true, false));
+            mob.addStatusEffect(new StatusEffectInstance(ModMisc.COMBUSTION_EFFECT, 20*4, 1, true, false));
             
             // if the player is not in creative, damage the flint and steel
             if (!player.isCreative() && !player.world.isClient) 

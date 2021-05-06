@@ -4,7 +4,7 @@ import java.util.Map;
 
 import me.jrm_wrm.mob_gems.registry.ModItems;
 import me.jrm_wrm.mob_gems.registry.ModMisc;
-import me.jrm_wrm.mob_gems.registry.ModNetworking;
+import me.jrm_wrm.mob_gems.registry.ModPackets;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.enchantment.Enchantment;
@@ -71,7 +71,7 @@ public class CaptureEnchantment extends Enchantment {
                     buf.writeDouble(mob.getPos().getX());
                     buf.writeDouble(mob.getPos().getY());
                     buf.writeDouble(mob.getPos().getZ());                            
-                    ServerPlayNetworking.send((ServerPlayerEntity) player, ModNetworking.CAPTURE_FEEDBACK_PACKET_ID, buf);
+                    ServerPlayNetworking.send((ServerPlayerEntity) player, ModPackets.CAPTURE_FEEDBACK_PACKET_ID, buf);
                 }
             }
         };

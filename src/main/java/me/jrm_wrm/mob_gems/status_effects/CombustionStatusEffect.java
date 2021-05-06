@@ -1,18 +1,17 @@
 package me.jrm_wrm.mob_gems.status_effects;
 
-import me.jrm_wrm.mob_gems.registry.ModNetworking;
+import me.jrm_wrm.mob_gems.registry.ModPackets;
 import me.jrm_wrm.mob_gems.util.LivingEntityAccess;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectType;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.world.GameRules;
@@ -78,16 +77,20 @@ public class CombustionStatusEffect extends StatusEffect {
         setEntityIgnited(entity, false);
     }
 
+    /**
+     * Called serverside when needing to notify the clients that entity is ignited
+     */
     private void setEntityIgnited(LivingEntity entity, boolean ignited) {
-        // server side
+        // serverside
         ((LivingEntityAccess) entity).setIgnited(ignited);
 
-        // client side
+        // make sure all clients know the entity is ignited
         PacketByteBuf buf = PacketByteBufs.create();
         buf.writeInt(entity.getEntityId());
         buf.writeBoolean(ignited);
-        entity.world.getPlayers().forEach( (PlayerEntity player) -> {
-            ServerPlayNetworking.send((ServerPlayerEntity) player, ModNetworking.SET_IGNITED_PACKET_ID, buf);
+        System.out.println(entity.world);
+        PlayerLookup.tracking(entity).forEach(player -> {
+            ServerPlayNetworking.send(player, ModPackets.SET_IGNITED_PACKET_ID, buf);
         });
     }
     

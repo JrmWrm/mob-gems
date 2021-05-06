@@ -44,7 +44,7 @@ public class ZombieMobGem extends MobGemItem {
         for (Entity entity : entities) {
             if (entity instanceof VillagerEntity) { 
                 VillagerEntity villager = (VillagerEntity) entity;
-                villager.applyStatusEffect(new StatusEffectInstance(StatusEffects.WITHER, 10, 5));
+                villager.addStatusEffect(new StatusEffectInstance(StatusEffects.WITHER, 10, 5));
             }
         }
         
@@ -76,7 +76,7 @@ public class ZombieMobGem extends MobGemItem {
         if (!braceletItem.isAugmenter && induceHunger) {
             wearer.removeStatusEffect(StatusEffects.HUNGER);
         } else if (braceletItem.isAugmenter) {
-            wearer.applyStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 30*20, 0)); 
+            wearer.addStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 30*20, 0)); 
         }
     }
     

@@ -33,14 +33,14 @@ public class ChickenMobGem extends MobGemItem {
     public void onAugmenterTick(ItemStack bracelet, ItemStack stack, World world, LivingEntity wearer, int slot) {
         if(world.isClient) return;
         
-        wearer.applyStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 10, 2, true, false, true));
+        wearer.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 10, 2, true, false, true));
     }
 
     @Override
     public void onDiminisherTick(ItemStack bracelet, ItemStack stack, World world, LivingEntity wearer, int slot) {
         if(world.isClient) return;
         
-        wearer.applyStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, 10, -3, true, false, false));
+        wearer.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, 10, -3, true, false, false));
     }
 
     @Override
