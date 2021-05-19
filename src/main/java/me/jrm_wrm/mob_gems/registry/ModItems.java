@@ -10,6 +10,7 @@ import me.jrm_wrm.mob_gems.items.mob_gem_items.BeeMobGem;
 import me.jrm_wrm.mob_gems.items.mob_gem_items.ChickenMobGem;
 import me.jrm_wrm.mob_gems.items.mob_gem_items.CowMobGem;
 import me.jrm_wrm.mob_gems.items.mob_gem_items.CreeperMobGem;
+import me.jrm_wrm.mob_gems.items.mob_gem_items.FoxMobGem;
 import me.jrm_wrm.mob_gems.items.mob_gem_items.IronGolemMobGem;
 import me.jrm_wrm.mob_gems.items.mob_gem_items.SkeletonMobGem;
 import me.jrm_wrm.mob_gems.items.mob_gem_items.ZombieMobGem;
@@ -38,16 +39,17 @@ public class ModItems {
     // Mob Gem items
     private static HashMap<String, MobGemItem> mobGemItems = new HashMap<String, MobGemItem>(); 
     
+    public static final BeeMobGem BEE_MOB_GEM = (BeeMobGem) addMobGem(new BeeMobGem(EntityType.BEE, 0xffd900));
     public static final MobGemItem IRON_GOLEM_MOB_GEM = addMobGem(new IronGolemMobGem(EntityType.IRON_GOLEM, 0xb0b0b0));
     public static final MobGemItem ZOMBIE_MOB_GEM = addMobGem(new ZombieMobGem(EntityType.ZOMBIE, 0xadfc03));
     public static final MobGemItem ZOMBIE_VILLAGER_MOB_GEM = addMobGem(new ZombieMobGem(EntityType.ZOMBIE_VILLAGER, 0xadfc03));
     public static final MobGemItem HUSK_MOB_GEM = addMobGem(new ZombieMobGem(EntityType.HUSK, 0xadfc03));
     public static final MobGemItem COW_MOB_GEM = addMobGem(new CowMobGem(EntityType.COW, 0x805501));
-    public static final BeeMobGem BEE_MOB_GEM = (BeeMobGem) addMobGem(new BeeMobGem(EntityType.BEE, 0xffd900));
     public static final MobGemItem SKELETON_MOB_GEM = addMobGem(new SkeletonMobGem(EntityType.SKELETON, 0xffffff));
     public static final MobGemItem STRAY_MOB_GEM = addMobGem(new SkeletonMobGem(EntityType.STRAY, 0xffffff));
     public static final MobGemItem CREEPER_MOB_GEM = addMobGem(new CreeperMobGem(EntityType.CREEPER, 0x26b816));
     public static final MobGemItem CHICKEN_MOB_GEM = addMobGem(new ChickenMobGem(EntityType.CHICKEN, 0xd1c7ab));
+    public static final MobGemItem FOX_MOB_GEM = addMobGem(new FoxMobGem(EntityType.FOX, 0xe87b33));
     public static final MobGemItem ENDERMAN_MOB_GEM = addMobGem(new MobGemItem(EntityType.ENDERMAN, 0x7030e6));
     
     // Item screen handlers

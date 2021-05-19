@@ -12,6 +12,7 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 
 public class WorldUtil {
@@ -114,7 +115,7 @@ public class WorldUtil {
      * convert BlockPos to Vec3d
      */ 
     public static Vec3d fromBlockPos(BlockPos pos) {
-        return new Vec3d(pos.getX(), pos.getY(), pos.getZ());
+        return Vec3d.ofCenter(new Vec3i(pos.getX(), pos.getY(), pos.getZ()));
     }
 
 }
