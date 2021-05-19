@@ -7,6 +7,7 @@ import me.jrm_wrm.mob_gems.enchantments.CaptureEnchantment;
 import me.jrm_wrm.mob_gems.items.BraceletItem;
 import me.jrm_wrm.mob_gems.items.MobGemItem;
 import me.jrm_wrm.mob_gems.items.mob_gem_items.ZombieMobGem;
+import me.jrm_wrm.mob_gems.registry.ModBlocks;
 import me.jrm_wrm.mob_gems.registry.ModItems;
 import me.jrm_wrm.mob_gems.registry.ModMisc;
 import me.jrm_wrm.mob_gems.util.WorldUtil;
@@ -33,7 +34,7 @@ public class LivingEntityListener {
         if (world.isClient) return ActionResult.PASS;
 
         // get gem cages in range
-        WorldUtil.getGemCageBlockEntitiesInRange(world, pos, MobGemItem.CAGE_RANGE).forEach( (GemCageBlockEntity gemCageEntity) -> {
+        WorldUtil.getBlockEntitiesInRange(world, pos, MobGemItem.CAGE_RANGE, ModBlocks.GEM_CAGE_ENTITY).forEach( (GemCageBlockEntity gemCageEntity) -> {
             
             // zombie mob gem code
             if (entity instanceof VillagerEntity && gemCageEntity.getGemStack().getItem() instanceof ZombieMobGem) {

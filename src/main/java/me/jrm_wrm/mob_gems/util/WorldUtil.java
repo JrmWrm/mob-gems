@@ -2,9 +2,13 @@ package me.jrm_wrm.mob_gems.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
-import me.jrm_wrm.mob_gems.blocks.GemCageBlockEntity;
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
@@ -13,25 +17,81 @@ import net.minecraft.world.World;
 public class WorldUtil {
     
     /**
-     * get all gem cages in range
-     */ 
-    public static List<GemCageBlockEntity> getGemCageBlockEntitiesInRange(World world, Vec3d pos, double range) {
-        ArrayList<GemCageBlockEntity> list = new ArrayList<GemCageBlockEntity>();
+     * gets all blockentities in a specified range with a specified type
+     * @param <T> BlockEntity type
+     * @param world world
+     * @param pos central position to check from
+     * @param range range to check
+     * @param filter filter to check with
+     * @return a list of blockentities
+     */
+    @SuppressWarnings("unchecked") // it IS checked
+    public static <T extends BlockEntity> List<T> getBlockEntitiesInRange(World world, Vec3d pos, double range, Predicate<BlockEntity> filter) {
+        ArrayList<T> list = new ArrayList<T>();
         
-        // loop through all blockentities to find any gem cages in range of the specified location
-        for (BlockEntity e : world.blockEntities) {
-            if (getRangeBox(pos, range).contains(e.getPos().getX(), e.getPos().getY(), e.getPos().getZ()) && 
-                e instanceof GemCageBlockEntity) list.add((GemCageBlockEntity) e);
-        }
+        // loop through the box and add the blockentity if it passes the test.
+        forEachBlockInBox(getRangeBox(pos, range), blockPos -> {
+            BlockEntity blockEntity = world.getBlockEntity(blockPos);
+            if (blockEntity != null && filter.test(blockEntity)) list.add((T) blockEntity);
+        });
 
         return list;
     }
 
     /**
-     * get all gem cages in range
-     */ 
-    public static List<GemCageBlockEntity> getGemCageBlockEntitiesInRange(World world, BlockPos pos, double range) {
-        return getGemCageBlockEntitiesInRange(world, fromBlockPos(pos), range);
+     * gets all blockentities in a specified range with a specified type
+     * @param <T> BlockEntity type
+     * @param world world
+     * @param pos central position to check from
+     * @param range range to check
+     * @param type type to check for, pass null if looking for all blockentities
+     * @return a list of blockentities
+     */
+    public static <T extends BlockEntity> List<T> getBlockEntitiesInRange(World world, Vec3d pos, double range, @Nullable BlockEntityType<T> type) {
+        // filter block entities based on type
+        Predicate<BlockEntity> filter = blockEntity -> type != null && blockEntity.getType().equals(type);
+        return getBlockEntitiesInRange(world, pos, range, filter);
+    }
+
+    /**
+     * gets all blockentities in a specified range with a specified type
+     * @param <T> BlockEntity type
+     * @param world world
+     * @param pos central position to check from
+     * @param range range to check
+     * @param filter filter to check with
+     * @return a list of blockentities
+     */
+    public static <T extends BlockEntity> List<T> getBlockEntitiesInRange(World world, BlockPos pos, double range, Predicate<BlockEntity> filter) {
+        return getBlockEntitiesInRange(world, fromBlockPos(pos), range, filter);
+    }
+
+    /**
+     * gets all blockentities in a specified range with a specified type
+     * @param <T> BlockEntity type
+     * @param world world
+     * @param pos central position to check from
+     * @param range range to check
+     * @param type type to check for, pass null if looking for all blockentities
+     * @return a list of blockentities
+     */
+    public static <T extends BlockEntity> List<T> getBlockEntitiesInRange(World world, BlockPos pos, double range, @Nullable BlockEntityType<T> type) {
+        return getBlockEntitiesInRange(world, fromBlockPos(pos), range, type);
+    }
+
+    /**
+     * loop through all block positions inside a box
+     * @param box
+     * @param consumer called for each blockpos
+     */
+    public static void forEachBlockInBox(Box box, Consumer<BlockPos> consumer) {
+        for (double x = box.minX; x <= box.maxX; x++) {
+            for (double y = box.minX; x <= box.maxX; x++) {
+                for (double z = box.minX; x <= box.maxX; x++) {
+                    consumer.accept(new BlockPos(x, y, z));
+                }
+            }
+        }
     }
 
     /**
