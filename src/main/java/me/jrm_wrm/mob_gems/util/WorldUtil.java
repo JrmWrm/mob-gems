@@ -87,8 +87,8 @@ public class WorldUtil {
      */
     public static void forEachBlockInBox(Box box, Consumer<BlockPos> consumer) {
         for (double x = box.minX; x <= box.maxX; x++) {
-            for (double y = box.minX; x <= box.maxX; x++) {
-                for (double z = box.minX; x <= box.maxX; x++) {
+            for (double y = box.minY; y <= box.maxY; y++) {
+                for (double z = box.minZ; z <= box.maxZ; z++) {
                     consumer.accept(new BlockPos(x, y, z));
                 }
             }
