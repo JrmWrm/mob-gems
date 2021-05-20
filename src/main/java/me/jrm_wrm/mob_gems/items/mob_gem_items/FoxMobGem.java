@@ -38,7 +38,8 @@ public class FoxMobGem extends MobGemItem {
         for (ItemEntity item : items) {
             Vec3d diff = WorldUtil.fromBlockPos(pos).subtract(item.getPos());
             Vec3d dir = diff.normalize();
-            item.setVelocity(dir.multiply(0.2f));
+            Vec3d vel = dir.multiply(0.02);
+            item.addVelocity(vel.x, vel.y, vel.z);
 
             // collect items in range
             if (diff.length() < 1) collectItem(item, pos, world);
@@ -48,11 +49,10 @@ public class FoxMobGem extends MobGemItem {
     private void collectItem(ItemEntity itemEntity, BlockPos cagePos, World world)  {
         ItemStack stack = itemEntity.getStack();
 
-        System.out.println("Collect!");
-
         WorldUtil.forEachBlockInBox(WorldUtil.getRangeBox(cagePos, 1), blockPos -> {
+            System.out.println(blockPos);
             Inventory inventory = InvUtil.getInventoryAt(world, blockPos);
-            if (inventory == null) return;
+            if (inventory == null || itemEntity.removed) return;
 
             Direction direction = Direction.fromVector(
                 blockPos.getX() - cagePos.getX(), 
@@ -61,7 +61,8 @@ public class FoxMobGem extends MobGemItem {
             
             if (InvUtil.isInventoryFull(inventory, direction)) return;
             
-            InvUtil.transfer(null, inventory, stack, direction);
+            ItemStack result = InvUtil.transfer(null, inventory, stack, direction);
+            if (result.isEmpty()) itemEntity.remove();
         });
     }
 
